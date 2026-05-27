@@ -149,6 +149,7 @@
             border-radius: 2px;
         }
 
+        /* 首頁 Hero */
         .hero-section {
             height: calc(100vh - 78px);
             display: flex;
@@ -181,6 +182,7 @@
             overflow: hidden;
         }
 
+        /* 首頁菇圖大小不動，保留 cover，只加大一點晃動 */
         .floating-mushroom {
             width: 100%;
             height: 100%;
@@ -190,7 +192,9 @@
 
         @keyframes float {
             0% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-8px) rotate(2deg); }
+            25% { transform: translateY(-10px) rotate(-2deg); }
+            50% { transform: translateY(-16px) rotate(3deg); }
+            75% { transform: translateY(-8px) rotate(-1.5deg); }
             100% { transform: translateY(0px) rotate(0deg); }
         }
 
@@ -249,6 +253,7 @@
             font-size: 22px;
         }
 
+        /* 產品卡片 */
         .product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -275,7 +280,7 @@
         .product-card-img {
             width: 100%;
             height: 260px;
-            object-fit: cover;
+            object-fit: contain;
             background-color: #faf6f0;
         }
 
@@ -308,6 +313,7 @@
             font-weight: 700;
         }
 
+        /* 種植旅程 */
         .journey-container {
             position: relative;
             max-width: 900px;
@@ -373,7 +379,7 @@
         .journey-img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
         }
 
         .journey-dot {
@@ -388,10 +394,11 @@
             transform: translateX(-50%);
         }
 
+        /* 菇菇宇宙 */
         .universe-hero-img {
             width: 100%;
             height: 360px;
-            object-fit: cover;
+            object-fit: contain;
             border-radius: 24px;
             border: 1px solid var(--border-color);
             margin-bottom: 35px;
@@ -432,7 +439,7 @@
         .universe-avatar img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
         }
 
         .universe-name {
@@ -441,6 +448,7 @@
             color: var(--primary-color);
         }
 
+        /* 社群與工作坊 */
         .social-workshop-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -480,6 +488,7 @@
             text-align: center;
         }
 
+        /* 團隊 */
         .team-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -499,7 +508,7 @@
             width: 120px;
             height: 120px;
             border-radius: 50%;
-            object-fit: cover;
+            object-fit: contain;
             margin: 0 auto 18px auto;
             border: 4px solid #f3ede4;
             background-color: #f9f6f1;
@@ -529,6 +538,7 @@
             line-height: 1.8;
         }
 
+        /* 商品詳細頁 */
         .detail-container {
             display: flex;
             flex-wrap: wrap;
@@ -546,7 +556,7 @@
             height: 520px;
             background-color: white;
             border-radius: 20px;
-            object-fit: cover;
+            object-fit: contain;
             border: 1px solid var(--border-color);
         }
 
@@ -650,6 +660,7 @@
             font-weight: bold;
         }
 
+        /* 菇菇宇宙詳細頁 */
         .universe-detail-container {
             display: flex;
             flex-wrap: wrap;
@@ -661,7 +672,7 @@
             flex: 1;
             min-width: 320px;
             height: 500px;
-            object-fit: cover;
+            object-fit: contain;
             border-radius: 24px;
             border: 1px solid var(--border-color);
             background-color: #f9f6f1;
@@ -689,10 +700,11 @@
             margin-bottom: 25px;
         }
 
+        /* 工作坊頁 */
         .workshop-photo {
             width: 100%;
             height: 430px;
-            object-fit: cover;
+            object-fit: contain;
             border-radius: 24px;
             border: 1px solid var(--border-color);
             margin-bottom: 35px;
@@ -730,6 +742,7 @@
             font-weight: 700;
         }
 
+        /* 購物車 */
         .cart-container {
             display: flex;
             flex-wrap: wrap;
@@ -762,7 +775,7 @@
         .cart-item-img {
             width: 90px;
             height: 90px;
-            object-fit: cover;
+            object-fit: contain;
             border-radius: 10px;
             background-color: #faf6f0;
         }
@@ -839,6 +852,7 @@
             font-size: 15px;
         }
 
+        /* 結帳頁 */
         .step-bar {
             display: flex;
             justify-content: center;
@@ -959,6 +973,7 @@
             background-color: #fbf9f6;
         }
 
+        /* 訂單完成 */
         .success-card {
             max-width: 550px;
             margin: 40px auto;
@@ -1079,7 +1094,7 @@
 
             .journey-content,
             .journey-img-box {
-                width: 100%;
+                width: calc(100% - 40px);
                 margin-left: 40px;
             }
 
@@ -1106,6 +1121,7 @@
 </head>
 
 <body>
+    <!-- 導覽列 -->
     <header>
         <div class="nav-container">
             <a class="logo" onclick="navigateTo('landing')">
@@ -1129,7 +1145,7 @@
         </div>
     </header>
 
-    <!-- 1. 首頁 -->
+    <!-- 首頁 -->
     <div id="landing-page" class="page active">
         <section class="hero-section">
             <div class="hero-content">
@@ -1335,7 +1351,7 @@
         </section>
     </div>
 
-    <!-- 2. 商品詳細頁 -->
+    <!-- 商品詳細頁 -->
     <div id="detail-page" class="page">
         <section>
             <div style="margin-bottom: 20px;">
@@ -1395,7 +1411,7 @@
         </section>
     </div>
 
-    <!-- 3. 菇菇宇宙詳細頁 -->
+    <!-- 菇菇宇宙詳細頁 -->
     <div id="universe-detail-page" class="page">
         <section>
             <div style="margin-bottom: 20px;">
@@ -1418,7 +1434,7 @@
         </section>
     </div>
 
-    <!-- 4. 工作坊頁 -->
+    <!-- 工作坊頁 -->
     <div id="workshop-page" class="page">
         <section>
             <div style="margin-bottom: 20px;">
@@ -1445,7 +1461,7 @@
         </section>
     </div>
 
-    <!-- 5. 購物車 -->
+    <!-- 購物車 -->
     <div id="cart-page" class="page">
         <section>
             <h2 class="section-title">你的溫室培養瓶</h2>
@@ -1480,7 +1496,7 @@
         </section>
     </div>
 
-    <!-- 6. 結帳頁 -->
+    <!-- 結帳頁 -->
     <div id="checkout-page" class="page">
         <section>
             <div class="step-bar">
@@ -1538,7 +1554,7 @@
         </section>
     </div>
 
-    <!-- 7. 訂單完成頁 -->
+    <!-- 訂單完成頁 -->
     <div id="success-page" class="page">
         <section>
             <div class="success-card">
