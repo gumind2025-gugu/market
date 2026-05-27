@@ -149,7 +149,6 @@
             border-radius: 2px;
         }
 
-        /* 首頁 Hero */
         .hero-section {
             height: calc(100vh - 78px);
             display: flex;
@@ -182,7 +181,6 @@
             overflow: hidden;
         }
 
-        /* 首頁菇圖大小不動，保留 cover，只加大一點晃動 */
         .floating-mushroom {
             width: 100%;
             height: 100%;
@@ -192,9 +190,7 @@
 
         @keyframes float {
             0% { transform: translateY(0px) rotate(0deg); }
-            25% { transform: translateY(-10px) rotate(-2deg); }
-            50% { transform: translateY(-16px) rotate(3deg); }
-            75% { transform: translateY(-8px) rotate(-1.5deg); }
+            50% { transform: translateY(-8px) rotate(2deg); }
             100% { transform: translateY(0px) rotate(0deg); }
         }
 
@@ -253,7 +249,6 @@
             font-size: 22px;
         }
 
-        /* 產品卡片 */
         .product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -280,7 +275,7 @@
         .product-card-img {
             width: 100%;
             height: 260px;
-            object-fit: contain;
+            object-fit: cover;
             background-color: #faf6f0;
         }
 
@@ -313,7 +308,6 @@
             font-weight: 700;
         }
 
-        /* 種植旅程 */
         .journey-container {
             position: relative;
             max-width: 900px;
@@ -379,7 +373,7 @@
         .journey-img {
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            object-fit: cover;
         }
 
         .journey-dot {
@@ -394,11 +388,10 @@
             transform: translateX(-50%);
         }
 
-        /* 菇菇宇宙 */
         .universe-hero-img {
             width: 100%;
             height: 360px;
-            object-fit: contain;
+            object-fit: cover;
             border-radius: 24px;
             border: 1px solid var(--border-color);
             margin-bottom: 35px;
@@ -439,7 +432,7 @@
         .universe-avatar img {
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            object-fit: cover;
         }
 
         .universe-name {
@@ -448,7 +441,6 @@
             color: var(--primary-color);
         }
 
-        /* 社群與工作坊 */
         .social-workshop-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -488,7 +480,6 @@
             text-align: center;
         }
 
-        /* 團隊 */
         .team-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -508,7 +499,7 @@
             width: 120px;
             height: 120px;
             border-radius: 50%;
-            object-fit: contain;
+            object-fit: cover;
             margin: 0 auto 18px auto;
             border: 4px solid #f3ede4;
             background-color: #f9f6f1;
@@ -538,7 +529,6 @@
             line-height: 1.8;
         }
 
-        /* 商品詳細頁 */
         .detail-container {
             display: flex;
             flex-wrap: wrap;
@@ -556,7 +546,7 @@
             height: 520px;
             background-color: white;
             border-radius: 20px;
-            object-fit: contain;
+            object-fit: cover;
             border: 1px solid var(--border-color);
         }
 
@@ -660,7 +650,6 @@
             font-weight: bold;
         }
 
-        /* 菇菇宇宙詳細頁 */
         .universe-detail-container {
             display: flex;
             flex-wrap: wrap;
@@ -672,7 +661,7 @@
             flex: 1;
             min-width: 320px;
             height: 500px;
-            object-fit: contain;
+            object-fit: cover;
             border-radius: 24px;
             border: 1px solid var(--border-color);
             background-color: #f9f6f1;
@@ -700,11 +689,10 @@
             margin-bottom: 25px;
         }
 
-        /* 工作坊頁 */
         .workshop-photo {
             width: 100%;
             height: 430px;
-            object-fit: contain;
+            object-fit: cover;
             border-radius: 24px;
             border: 1px solid var(--border-color);
             margin-bottom: 35px;
@@ -742,7 +730,6 @@
             font-weight: 700;
         }
 
-        /* 購物車 */
         .cart-container {
             display: flex;
             flex-wrap: wrap;
@@ -775,7 +762,7 @@
         .cart-item-img {
             width: 90px;
             height: 90px;
-            object-fit: contain;
+            object-fit: cover;
             border-radius: 10px;
             background-color: #faf6f0;
         }
@@ -852,7 +839,6 @@
             font-size: 15px;
         }
 
-        /* 結帳頁 */
         .step-bar {
             display: flex;
             justify-content: center;
@@ -973,7 +959,6 @@
             background-color: #fbf9f6;
         }
 
-        /* 訂單完成 */
         .success-card {
             max-width: 550px;
             margin: 40px auto;
@@ -1094,7 +1079,7 @@
 
             .journey-content,
             .journey-img-box {
-                width: calc(100% - 40px);
+                width: 100%;
                 margin-left: 40px;
             }
 
@@ -1121,7 +1106,6 @@
 </head>
 
 <body>
-    <!-- 導覽列 -->
     <header>
         <div class="nav-container">
             <a class="logo" onclick="navigateTo('landing')">
@@ -1145,7 +1129,7 @@
         </div>
     </header>
 
-    <!-- 首頁 -->
+    <!-- 1. 首頁 -->
     <div id="landing-page" class="page active">
         <section class="hero-section">
             <div class="hero-content">
@@ -1179,7 +1163,7 @@
                     <div class="product-card-info">
                         <span class="product-card-tag">主打首選</span>
                         <h3 class="product-card-title">靈感菇 陪伴組</h3>
-                        <p class="product-card-price">NT$ 599</p>
+                        <p class="product-card-price">NT$ 399</p>
                     </div>
                 </div>
 
@@ -1188,7 +1172,7 @@
                     <div class="product-card-info">
                         <span class="product-card-tag">情感滋養</span>
                         <h3 class="product-card-title">愛情菇 陪伴組</h3>
-                        <p class="product-card-price">NT$ 599</p>
+                        <p class="product-card-price">NT$ 399</p>
                     </div>
                 </div>
 
@@ -1197,7 +1181,7 @@
                     <div class="product-card-info">
                         <span class="product-card-tag">財運滿滿</span>
                         <h3 class="product-card-title">金錢菇 陪伴組</h3>
-                        <p class="product-card-price">NT$ 599</p>
+                        <p class="product-card-price">NT$ 399</p>
                     </div>
                 </div>
             </div>
@@ -1255,39 +1239,39 @@
             <img src="菇菇宇宙合照.jpg" alt="菇菇宇宙合照" class="universe-hero-img">
 
             <div class="universe-grid">
-                <div class="universe-card" onclick="openUniverseDetail('熬夜靈感菇')">
+                <div class="universe-card" onclick="openUniverseDetail('靈感菇')">
                     <div class="universe-avatar">
-                        <img src="熬夜菇.jpg" alt="熬夜靈感菇">
+                        <img src="介紹靈感菇.jpg" alt="靈感菇">
                     </div>
-                    <div class="universe-name">熬夜靈感菇</div>
+                    <div class="universe-name">靈感菇</div>
                 </div>
 
-                <div class="universe-card" onclick="openUniverseDetail('日常防焦慮菇')">
+                <div class="universe-card" onclick="openUniverseDetail('瑚菇婆')">
                     <div class="universe-avatar">
-                        <img src="焦慮菇.jpg" alt="日常防焦慮菇">
+                        <img src="瑚菇婆.jpg" alt="瑚菇婆">
                     </div>
-                    <div class="universe-name">日常防焦慮菇</div>
+                    <div class="universe-name">瑚菇婆</div>
                 </div>
 
-                <div class="universe-card" onclick="openUniverseDetail('曖昧純愛菇')">
+                <div class="universe-card" onclick="openUniverseDetail('菇嚕')">
                     <div class="universe-avatar">
-                        <img src="純愛菇.jpg" alt="曖昧純愛菇">
+                        <img src="菇嚕.jpg" alt="菇嚕">
                     </div>
-                    <div class="universe-name">曖昧純愛菇</div>
+                    <div class="universe-name">菇嚕</div>
                 </div>
 
-                <div class="universe-card" onclick="openUniverseDetail('發財金錢菇')">
+                <div class="universe-card" onclick="openUniverseDetail('菇蘑寧')">
                     <div class="universe-avatar">
-                        <img src="發財菇.jpg" alt="發財金錢菇">
+                        <img src="菇蘑寧.jpg" alt="菇蘑寧">
                     </div>
-                    <div class="universe-name">發財金錢菇</div>
+                    <div class="universe-name">菇蘑寧</div>
                 </div>
 
-                <div class="universe-card" onclick="openUniverseDetail('純粹放空菇')">
+                <div class="universe-card" onclick="openUniverseDetail('咕咕菇')">
                     <div class="universe-avatar">
-                        <img src="放空菇.jpg" alt="純粹放空菇">
+                        <img src="咕咕菇.jpg" alt="咕咕菇">
                     </div>
-                    <div class="universe-name">純粹放空菇</div>
+                    <div class="universe-name">咕咕菇</div>
                 </div>
             </div>
         </section>
@@ -1300,7 +1284,7 @@
                 <div class="sw-card">
                     <div class="sw-icon"><i class="fa-brands fa-instagram"></i></div>
                     <h3>菇菇線上互助社群</h3>
-                    <p>加入溫暖社群，分享你的長菇日記，與其他正在努力生活的「菇農」們一起互相拍拍、交換療癒時刻。</p>
+                    <p>加入溫暖社群，分享你的長菇日記，與其他正在努力生活的「菇勇者」們一起互相拍拍、交換療癒時刻。</p>
                     <a class="btn-primary" href="https://www.instagram.com/gumind._.2025?igsh=M3hvZ2g5dzBvcHAz" target="_blank">
                         前往 IG 社群
                     </a>
@@ -1308,9 +1292,9 @@
 
                 <div class="sw-card">
                     <div class="sw-icon"><i class="fa-solid fa-seedling"></i></div>
-                    <h3>線下情緒療癒工作坊</h3>
+                    <h3>線下菇菇療癒工作坊</h3>
                     <p>結合菇菇手作、療癒小卡與自我照顧活動。在實體活動中，給自己一段時間，好好與內心對話。</p>
-                    <button class="btn-primary" onclick="navigateTo('workshop')">查看工作坊紀錄</button>
+                    <button class="btn-primary" onclick="navigateTo('workshop')">查看工作坊</button>
                 </div>
             </div>
         </section>
@@ -1330,28 +1314,28 @@
                 <div class="team-card">
                     <img src="團隊1.jpg" alt="團隊成員一" class="team-photo">
                     <span class="team-role">品牌與企劃</span>
-                    <div class="team-name">菇勇者一號</div>
-                    <p class="team-desc">負責品牌定位、活動設計與整體故事規劃，讓靈感菇不只是產品，而是一段可以被記住的療癒體驗。</p>
+                    <div class="team-name">霏霏</div>
+                    <p class="team-desc">負責品牌定位、產品設計與專案管理，讓靈感菇不只是產品，而是一段可以被記住的療癒體驗。</p>
                 </div>
 
                 <div class="team-card">
                     <img src="團隊2.jpg" alt="團隊成員二" class="team-photo">
                     <span class="team-role">視覺與 IP 設計</span>
-                    <div class="team-name">菇勇者二號</div>
+                    <div class="team-name">安安</div>
                     <p class="team-desc">負責菇菇角色、視覺風格與周邊設計，讓每一隻菇都擁有自己的個性與陪伴感。</p>
                 </div>
 
                 <div class="team-card">
                     <img src="團隊3.jpg" alt="團隊成員三" class="team-photo">
                     <span class="team-role">產品與體驗製作</span>
-                    <div class="team-name">菇勇者三號</div>
+                    <div class="team-name">姍姍</div>
                     <p class="team-desc">負責產品內容、實體製作與工作坊體驗，讓大家能真正把菇菇帶進生活裡。</p>
                 </div>
             </div>
         </section>
     </div>
 
-    <!-- 商品詳細頁 -->
+    <!-- 2. 商品詳細頁 -->
     <div id="detail-page" class="page">
         <section>
             <div style="margin-bottom: 20px;">
@@ -1368,7 +1352,7 @@
                 <div class="detail-right">
                     <span class="detail-brand-tag" id="detailTag">主打首選</span>
                     <h2 class="detail-title" id="detailTitle">靈感菇・陪伴組</h2>
-                    <p class="detail-price">NT$ 599</p>
+                    <p class="detail-price">NT$ 399</p>
 
                     <div class="detail-rating">
                         <i class="fa-solid fa-star"></i>
@@ -1411,7 +1395,7 @@
         </section>
     </div>
 
-    <!-- 菇菇宇宙詳細頁 -->
+    <!-- 3. 菇菇宇宙詳細頁 -->
     <div id="universe-detail-page" class="page">
         <section>
             <div style="margin-bottom: 20px;">
@@ -1421,10 +1405,10 @@
             </div>
 
             <div class="universe-detail-container">
-                <img src="熬夜菇.jpg" alt="菇菇角色照片" class="universe-detail-img" id="universeDetailImg">
+                <img src="介紹靈感菇.jpg" alt="菇菇角色照片" class="universe-detail-img" id="universeDetailImg">
 
                 <div class="universe-detail-text">
-                    <h2 id="universeDetailName">熬夜靈感菇</h2>
+                    <h2 id="universeDetailName">介紹靈感菇</h2>
                     <p id="universeDetailDesc">
                         牠陪伴那些半夜還在冒靈感、腦袋停不下來的人。提醒你：努力很重要，但睡覺也是靈感長大的養分。
                     </p>
@@ -1434,7 +1418,7 @@
         </section>
     </div>
 
-    <!-- 工作坊頁 -->
+    <!-- 4. 工作坊頁 -->
     <div id="workshop-page" class="page">
         <section>
             <div style="margin-bottom: 20px;">
@@ -1448,9 +1432,9 @@
             <img src="工作坊合照.jpg" alt="第一場菇菇手作工作坊合照" class="workshop-photo">
 
             <div class="workshop-text-box">
-                <h3>第一場菇菇手作工作坊</h3>
+                <h3>5/20 第一場菇菇手作工作坊</h3>
                 <p>
-                    在第一場菇菇手作工作坊中，我們和參與者一起透過靈感菇心理測驗、療癒小卡、菇菇身分證製作與手作體驗，
+                    這是我們第一場的菇菇手作工作坊！我們和參與者一起透過靈感菇心理測驗、療癒小卡、菇菇身分證製作與手作體驗，
                     讓大家在輕鬆的互動中認識自己，也把一份可愛又療癒的陪伴帶回生活裡。
                 </p>
                 <p>
@@ -1461,7 +1445,7 @@
         </section>
     </div>
 
-    <!-- 購物車 -->
+    <!-- 5. 購物車 -->
     <div id="cart-page" class="page">
         <section>
             <h2 class="section-title">你的溫室培養瓶</h2>
@@ -1496,7 +1480,7 @@
         </section>
     </div>
 
-    <!-- 結帳頁 -->
+    <!-- 6. 結帳頁 -->
     <div id="checkout-page" class="page">
         <section>
             <div class="step-bar">
@@ -1554,7 +1538,7 @@
         </section>
     </div>
 
-    <!-- 訂單完成頁 -->
+    <!-- 7. 訂單完成頁 -->
     <div id="success-page" class="page">
         <section>
             <div class="success-card">
@@ -1565,7 +1549,7 @@
                 <h2 class="success-title">包裹已打包，靈感正在路上</h2>
 
                 <p class="success-p">
-                    我們已收到你的心意。菇菇太空艙正在全力為你打包專屬陪伴組，預計 2-3 個工作天內就會送達你的溫室角落。
+                    我們已收到你的心意。菇菇太空艙正在全力為你打包專屬陪伴組，預計 14 個工作天內就會送達你的溫室角落。
                 </p>
 
                 <div class="order-info-box">
@@ -1625,25 +1609,34 @@
         };
 
         const universeData = {
-            "熬夜靈感菇": {
-                img: "熬夜菇.jpg",
-                desc: "牠陪伴那些半夜還在冒靈感、腦袋停不下來的人。提醒你：努力很重要，但睡覺也是靈感長大的養分。"
+            "靈感菇": {
+                img: "介紹靈感菇.jpg",
+                desc: "「我是靈感菇☁️，我最大的技能是：把『等等再做』拖成『明天再說』。」
+是一隻非常會拖延的菇。
+每天都說「等一下再開始」，最後直接開始休息，但莫名地，很會安慰人。"
             },
-            "日常防焦慮菇": {
-                img: "焦慮菇.jpg",
-                desc: "牠像一個小小的深呼吸提醒器，陪你在緊繃的日子裡慢慢穩下來，把焦慮變成可以被照顧的感受。"
+            "瑚菇婆": {
+                img: "瑚菇婆.jpg",
+                desc: "「我是瑚菇婆🌸。別人戀愛腦，我是戀愛菇。他三分鐘沒回，我已經腦補分手。」
+外表像戀愛專家。
+實際上對方晚回三分鐘就開始腦內小劇場，很會照顧別人，卻常常忘記照顧自己。"
             },
-            "曖昧純愛菇": {
-                img: "純愛菇.jpg",
-                desc: "牠悄悄散發粉紅泡泡，陪你面對心動、期待與不確定。喜歡可以慢慢來，真誠也值得被好好保存。"
+            "菇嚕": {
+                img: "菇嚕.jpg",
+                desc: "「我是菇嚕🫧！沒有夢想，沒有目標。但看到別人吃東西會想跟著吃。」
+每天都不知道自己在幹嘛，會突然出現在大家旁邊傻笑。雖然腦袋空空，但意外地很療癒。"
             },
-            "發財金錢菇": {
-                img: "發財菇.jpg",
-                desc: "牠是努力生活的招財小夥伴，陪你把願望變成計畫，把計畫變成每天願意前進一點點的力量。"
+            "菇蘑寧": {
+                img: "菇蘑寧.jpg",
+                desc: "「菇～蘑寧☀️！每天負責叫大家起床。但我自己其實都睡到最後一秒。」
+每天都很有精神地跟大家說早安，但其實鬧鐘通常要響五次才會起床。
+是軍團裡最像小狗的菇。"
             },
-            "純粹放空菇": {
-                img: "放空菇.jpg",
-                desc: "牠最懂腦袋當機的時候。有時候你不需要馬上振作，只需要一段安靜空白，讓自己重新充電。"
+            "咕咕菇": {
+                img: "咕咕菇.jpg",
+                desc: "「我是咕咕菇🌙，擅長凌晨三點想人生。已讀不回不是討厭你，是我在放空。」
+總是在半夜出沒…明明看起來很冷淡，卻會默默陪朋友聊到凌晨四點。
+最大的興趣是胡思亂想和賴床。"
             }
         };
 
