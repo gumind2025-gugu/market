@@ -1,0 +1,1787 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>靈感菇 GUMIND - 陪你每天一點一點長大</title>
+    <!-- 引入 Google 字體與 Icon -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- 基礎療癒風視覺設定 --- */
+        :root {
+            --bg-color: #fbf9f6;          /* 暖奶茶底色 */
+            --primary-color: #8c7a6b;     /* 靈感棕 */
+            --accent-color: #e29b8a;      /* 療癒菇粉 */
+            --text-dark: #4a423a;         /* 深炭棕 */
+            --text-light: #8e847a;        /* 淺灰棕 */
+            --card-bg: #ffffff;           /* 純白卡片 */
+            --border-color: #eee9e2;      /* 溫和細邊框 */
+            --success-color: #9cbda7;     /* 溫柔草綠 */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans TC', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- 導覽列 --- */
+        header {
+            background-color: rgba(251, 249, 246, 0.9);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo i {
+            color: var(--accent-color);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        nav a:hover {
+            color: var(--accent-color);
+        }
+
+        .cart-icon {
+            position: relative;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background-color: var(--accent-color);
+            color: white;
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 50%;
+            font-weight: bold;
+        }
+
+        /* --- 頁面結構控管 --- */
+        .page {
+            display: none;
+            padding-top: 70px; /* 留給 fixed header */
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 28px;
+            color: var(--primary-color);
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 3px;
+            background-color: var(--accent-color);
+            margin: 12px auto 0 auto;
+            border-radius: 2px;
+        }
+
+        /* ==========================================================================
+           1. LANDING PAGE (首頁) 樣式
+           ========================================================================== */
+        
+        /* Hero 區塊 */
+        .hero-section {
+            height: calc(100vh - 70px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(180deg, #f7f3ed 0%, var(--bg-color) 100%);
+            padding: 0 20px;
+        }
+
+        .hero-content {
+            max-width: 700px;
+            z-index: 2;
+        }
+
+        .hero-title-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .hero-title {
+            font-size: 42px;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: var(--text-light);
+            margin-bottom: 35px;
+            letter-spacing: 2px;
+        }
+
+        /* 漂浮菇與透明培養瓶 IP 視覺模擬區域 */
+        .hero-ip-visual {
+            width: 280px;
+            height: 280px;
+            margin: 0 auto 30px auto;
+            position: relative;
+            background: rgba(255, 255, 255, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            border-radius: 40% 40% 50% 50% / 40% 40% 60% 60%; /* 瓶狀形狀 */
+            box-shadow: 0 15px 35px rgba(140, 122, 107, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(2px);
+        }
+
+        .floating-mushroom {
+            width: 140px;
+            height: auto;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(3deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 14px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(140, 122, 107, 0.15);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(226, 155, 138, 0.25);
+        }
+
+        /* 痛點區 (為什麼需要靈感菇) */
+        .pain-section {
+            background-color: #f6f2ec;
+            text-align: center;
+        }
+
+        .pain-text-container {
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 20px;
+            line-height: 2.2;
+            color: var(--text-dark);
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .pain-highlight {
+            color: var(--accent-color);
+            font-weight: 700;
+            font-size: 22px;
+        }
+
+        /* 產品區 (認識你的靈感菇) */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .product-card {
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(140, 122, 107, 0.08);
+        }
+
+        .product-card-img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            background-color: #faf6f0;
+        }
+
+        .product-card-info {
+            padding: 25px;
+            text-align: center;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-card-title {
+            font-size: 18px;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .product-card-tag {
+            display: inline-block;
+            background-color: #f3ede4;
+            color: var(--text-light);
+            font-size: 12px;
+            padding: 3px 12px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .product-card-price {
+            font-size: 16px;
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+
+        /* 種植旅程 */
+        .journey-container {
+            position: relative;
+            max-width: 900px;
+            margin: 50px auto 0 auto;
+        }
+
+        .journey-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--border-color);
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .journey-step {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 60px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .journey-step:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .journey-content {
+            width: 45%;
+            background-color: var(--card-bg);
+            padding: 25px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.01);
+        }
+
+        .journey-badge {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 12px;
+            padding: 2px 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .journey-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            font-size: 18px;
+        }
+
+        .journey-img-box {
+            width: 45%;
+            text-align: center;
+        }
+
+        .journey-img {
+            width: 80%;
+            max-width: 200px;
+            border-radius: 12px;
+            background-color: #fdfcfb;
+        }
+
+        .journey-dot {
+            position: absolute;
+            left: 50%;
+            top: 30px;
+            width: 16px;
+            height: 16px;
+            background-color: var(--accent-color);
+            border: 4px solid var(--bg-color);
+            border-radius: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* 菇菇宇宙 (先放6隻) */
+        .universe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .universe-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .universe-avatar {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 15px auto;
+            background-color: #f9f6f1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .universe-avatar img {
+            width: 70%;
+            height: auto;
+        }
+
+        .universe-name {
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .universe-desc {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        /* 社群與工作坊 */
+        .social-workshop-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .sw-card {
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            padding: 35px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .sw-icon {
+            font-size: 36px;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        .sw-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .sw-card p {
+            color: var(--text-light);
+            font-size: 14px;
+            margin-bottom: 25px;
+            line-height: 1.8;
+        }
+
+        /* 商城區塊（快速導購） */
+        .mall-preview {
+            background-color: #fdfbf8;
+            text-align: center;
+        }
+
+        /* 團隊區塊 */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .team-card {
+            background-color: rgba(255,255,255,0.5);
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .team-role {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 12px;
+            padding: 3px 12px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .team-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        /* ==========================================================================
+           2. PRODUCT DETAIL PAGE (商品詳細頁) 樣式
+           ========================================================================== */
+        .detail-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-top: 20px;
+        }
+
+        .detail-left {
+            flex: 1;
+            min-width: 320px;
+        }
+
+        .main-product-img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1;
+            background-color: white;
+            border-radius: 20px;
+            object-fit: cover;
+            border: 1px solid var(--border-color);
+        }
+
+        .thumb-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .thumb-img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            background-color: white;
+            transition: border-color 0.2s;
+        }
+
+        .thumb-img:hover, .thumb-img.active {
+            border-color: var(--accent-color);
+        }
+
+        .detail-right {
+            flex: 1;
+            min-width: 320px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .detail-brand-tag {
+            align-self: flex-start;
+            background-color: #f3ede4;
+            color: var(--primary-color);
+            font-size: 12px;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        .detail-title {
+            font-size: 28px;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .detail-price {
+            font-size: 24px;
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+
+        .detail-rating {
+            color: #f39c12;
+            font-size: 14px;
+        }
+
+        .detail-slogan {
+            font-style: italic;
+            color: var(--text-light);
+            border-left: 3px solid var(--accent-color);
+            padding-left: 10px;
+            margin: 5px 0;
+        }
+
+        .detail-contents {
+            background-color: #f6f2ec;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 14px;
+        }
+
+        .detail-contents ul {
+            list-style-position: inside;
+            margin-top: 5px;
+            color: var(--text-dark);
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .qty-btn {
+            width: 36px;
+            height: 36px;
+            border: 1px solid var(--border-color);
+            background-color: white;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .qty-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .qty-input {
+            width: 40px;
+            text-align: center;
+            font-size: 16px;
+            border: none;
+            background: none;
+            font-weight: bold;
+        }
+
+        /* TAB 切換區 */
+        .tab-section {
+            margin-top: 50px;
+            width: 100%;
+        }
+
+        .tab-header {
+            display: flex;
+            border-bottom: 2px solid var(--border-color);
+            gap: 30px;
+        }
+
+        .tab-btn {
+            padding: 12px 10px;
+            background: none;
+            border: none;
+            font-size: 16px;
+            color: var(--text-light);
+            cursor: pointer;
+            position: relative;
+            font-weight: 500;
+        }
+
+        .tab-btn.active {
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+
+        .tab-content {
+            padding: 25px 0;
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .intro-target {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .target-tag {
+            background-color: #fbf9f6;
+            border: 1px solid var(--border-color);
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .step-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .step-item h4 {
+            color: var(--accent-color);
+            margin-bottom: 3px;
+        }
+
+        .review-item {
+            border-bottom: 1px solid var(--border-color);
+            padding: 15px 0;
+        }
+
+        .review-text {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .review-user {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        /* ==========================================================================
+           3. CART PAGE (暖暖療癒感購物車) 樣式
+           ========================================================================== */
+        .cart-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .cart-left {
+            flex: 2;
+            min-width: 320px;
+        }
+
+        .cart-right {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .cart-item {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .cart-item-img {
+            width: 90px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 10px;
+            background-color: #faf6f0;
+        }
+
+        .cart-item-info {
+            flex-grow: 1;
+        }
+
+        .cart-item-title {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            color: var(--accent-color);
+            font-weight: 700;
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+
+        .cart-remove-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .cart-remove-btn:hover {
+            color: #c0392b;
+        }
+
+        .summary-box {
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        .summary-title {
+            font-size: 18px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-weight: 700;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+
+        .summary-total {
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--accent-color);
+        }
+
+        .cart-footer-warmtext {
+            text-align: center;
+            margin-top: 25px;
+            color: var(--primary-color);
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        /* ==========================================================================
+           4. CHECKOUT PAGE (收到療癒禮物感受) 樣式
+           ========================================================================== */
+        /* 步驟條 Step Bar */
+        .step-bar {
+            display: flex;
+            justify-content: center;
+            max-width: 600px;
+            margin: 0 auto 40px auto;
+            position: relative;
+        }
+
+        .step-bar::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background-color: var(--border-color);
+            z-index: 1;
+        }
+
+        .step-node {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-number {
+            width: 32px;
+            height: 32px;
+            background-color: #f0eae1;
+            color: var(--text-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px auto;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .step-node.active .step-number {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .step-node.active .step-text {
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .step-text {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        .checkout-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .checkout-left {
+            flex: 1.8;
+            min-width: 320px;
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            padding: 35px;
+            border: 1px solid var(--border-color);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--text-dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: #fafdfb;
+            font-size: 15px;
+            color: var(--text-dark);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+        }
+
+        .payment-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .payment-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .payment-label:hover {
+            background-color: #fbf9f6;
+        }
+
+        /* ==========================================================================
+           5. ORDER SUCCESS PAGE (超可愛訂單完成頁) 樣式
+           ========================================================================== */
+        .success-card {
+            max-width: 550px;
+            margin: 40px auto;
+            background-color: var(--card-bg);
+            border-radius: 24px;
+            padding: 45px 35px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(140, 122, 107, 0.05);
+        }
+
+        .success-gift-animation {
+            width: 160px;
+            height: 160px;
+            margin: 0 auto 25px auto;
+            background-color: #fdf7f5;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .success-gift-animation i {
+            font-size: 65px;
+            color: var(--accent-color);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-10px) scale(1.05); }
+        }
+
+        .success-title {
+            font-size: 24px;
+            color: var(--primary-color);
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .success-p {
+            color: var(--text-light);
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .order-info-box {
+            background-color: #fbf9f6;
+            border-radius: 12px;
+            padding: 15px 20px;
+            text-align: left;
+            font-size: 14px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        .order-info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .order-info-row:last-child {
+            margin-bottom: 0;
+        }
+
+        /* --- Footer 頁尾 --- */
+        footer {
+            background-color: #f3ede4;
+            padding: 40px 20px;
+            text-align: center;
+            font-size: 14px;
+            color: var(--text-light);
+            border-top: 1px solid var(--border-color);
+            margin-top: 8px;
+        }
+
+        footer p {
+            margin-bottom: 10px;
+        }
+
+        /* 響應式優化 */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 32px; }
+            .journey-line { left: 20px; }
+            .journey-step { flex-direction: column !important; align-items: flex-start; }
+            .journey-content, .journey-img-box { width: 100%; padding-left: 40px; text-align: left; }
+            .journey-dot { left: 20px; }
+            .journey-img-box { margin-top: 15px; }
+            .tab-header { gap: 15px; }
+            .tab-btn { font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 導覽列 -->
+    <header>
+        <div class="nav-container">
+            <a class="logo" onclick="navigateTo('landing')">
+                <i class="fa-solid fa-mushroom"></i> 靈感菇 GUMIND
+            </a>
+            <nav>
+                <ul>
+                    <li><a onclick="navigateTo('landing')">首頁介紹</a></li>
+                    <li><a onclick="scrollToSection('products-section')">探索菇菇</a></li>
+                    <li><a onclick="navigateTo('cart')" class="cart-icon"><i class="fa-solid fa-cookie-bite"></i> 培養瓶 <span class="cart-badge" id="cartBadge">0</span></a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ==========================================================================
+       1. LANDING PAGE (首頁品牌介紹)
+       ========================================================================== -->
+    <div id="landing-page" class="page active">
+        
+        <!-- Hero 區塊 -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <!-- 透明培養瓶與漂浮菇視覺框，未來可直接替換成你的 IP 圖 -->
+                <div class="hero-ip-visual">
+                    <img src="placeholders/hero-mushroom.png" alt="靈感菇與透明培養瓶 IP 視覺" class="floating-mushroom" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3304/3304414.png'">
+                </div>
+                <div class="hero-title-container">
+                    <h1 class="hero-title">靈感菇 GUMIND</h1>
+                </div>
+                <p class="hero-subtitle">一個專為高壓現代人打造的「情緒陪伴體驗品牌」</p>
+                <button class="btn-primary" onclick="scrollToSection('products-section')">開始你的種植旅程</button>
+            </div>
+        </section>
+
+        <!-- 痛點區 (為什麼需要靈感菇) -->
+        <section class="pain-section">
+            <div class="pain-text-container">
+                <p>慢性壓力</p>
+                <p>不是突然爆炸</p>
+                <p>而是每天一點一點累積</p>
+                <p class="pain-highlight">所以靈感菇</p>
+                <p class="pain-highlight">也陪你每天一點一點長大</p>
+            </div>
+        </section>
+
+        <!-- 產品區 (認識你的靈感菇) -->
+        <section id="products-section">
+            <h2 class="section-title">認識你的靈感菇</h2>
+            <div class="product-grid">
+                <!-- 卡片 1: 靈感菇 (主品牌放第一個) -->
+                <div class="product-card" onclick="openProductDetail('靈感菇')">
+                    <img src="placeholders/mush-1.png" alt="靈感菇 陪伴組" class="product-card-img" onerror="this.src='https://images.unsplash.com/photo-1535254973040-607b474cb50d?w=500&auto=format&fit=crop&q=60'">
+                    <div class="product-card-info">
+                        <div>
+                            <span class="product-card-tag">主打首選</span>
+                            <h3 class="product-card-title">靈感菇 陪伴組</h3>
+                        </div>
+                        <p class="product-card-price">NT$ 599</p>
+                    </div>
+                </div>
+                <!-- 卡片 2: 愛情菇 -->
+                <div class="product-card" onclick="openProductDetail('愛情菇')">
+                    <img src="placeholders/mush-2.png" alt="愛情菇 陪伴組" class="product-card-img" onerror="this.src='https://images.unsplash.com/photo-1590005354167-6da97870c913?w=500&auto=format&fit=crop&q=60'">
+                    <div class="product-card-info">
+                        <div>
+                            <span class="product-card-tag">情感滋養</span>
+                            <h3 class="product-card-title">愛情菇 陪伴組</h3>
+                        </div>
+                        <p class="product-card-price">NT$ 599</p>
+                    </div>
+                </div>
+                <!-- 卡片 3: 金錢菇 -->
+                <div class="product-card" onclick="openProductDetail('金錢菇')">
+                    <img src="placeholders/mush-3.png" alt="金錢菇 陪伴組" class="product-card-img" onerror="this.src='https://images.unsplash.com/photo-1570737197414-7560469bf345?w=500&auto=format&fit=crop&q=60'">
+                    <div class="product-card-info">
+                        <div>
+                            <span class="product-card-tag">財運滿滿</span>
+                            <h3 class="product-card-title">金錢菇 陪伴組</h3>
+                        </div>
+                        <p class="product-card-price">NT$ 599</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 種植旅程 (最有教育性、導購力) -->
+        <section style="background-color: #faf6f0;">
+            <h2 class="section-title">種植旅程</h2>
+            <div class="journey-container">
+                <div class="journey-line"></div>
+                
+                <!-- 步驟 1 -->
+                <div class="journey-step">
+                    <div class="journey-dot"></div>
+                    <div class="journey-content">
+                        <span class="journey-badge">Step 01</span>
+                        <h3>打開培養瓶，注入期待</h3>
+                        <p>收到專屬你的透明培養瓶，撕開靈感封條。這不只是一次種植，而是為自己開闢一個療癒溫室的儀式。</p>
+                    </div>
+                    <div class="journey-img-box">
+                        <img src="placeholders/step1.png" alt="步驟一" class="journey-img" onerror="this.src='https://cdn-icons-png.flaticon.com/512/869/869045.png'">
+                    </div>
+                </div>
+
+                <!-- 步驟 2 -->
+                <div class="journey-step">
+                    <div class="journey-dot"></div>
+                    <div class="journey-content">
+                        <span class="journey-badge">Step 02</span>
+                        <h3>每日噴水，日常滋養</h3>
+                        <p>每天早晚兩次溫柔噴水。在你為了生活忙碌、熬夜或焦慮的時刻，只要看看它，它正與你一同呼吸。</p>
+                    </div>
+                    <div class="journey-img-box">
+                        <img src="placeholders/step2.png" alt="步驟二" class="journey-img" onerror="this.src='https://cdn-icons-png.flaticon.com/512/4148/4148453.png'">
+                    </div>
+                </div>
+
+                <!-- 步驟 3 -->
+                <div class="journey-step">
+                    <div class="journey-dot"></div>
+                    <div class="journey-content">
+                        <span class="journey-badge">Step 03</span>
+                        <h3>破土而出，靈感迸發</h3>
+                        <p>大約 5-7 天，小巧可愛的菇體將破土而出。累積的壓力彷彿在此刻被溫柔釋放，轉化為生活全新的靈感。</p>
+                    </div>
+                    <div class="journey-img-box">
+                        <img src="placeholders/step3.png" alt="步驟三" class="journey-img" onerror="this.src='https://cdn-icons-png.flaticon.com/512/628/628285.png'">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 菇菇宇宙 (先精選 6 隻最具記憶點的角色) -->
+        <section>
+            <h2 class="section-title">菇菇宇宙</h2>
+            <div class="universe-grid">
+                <!-- 1 -->
+                <div class="universe-card">
+                    <div class="universe-avatar">
+                        <img src="placeholders/uni-1.png" alt="熬夜靈感菇" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3304/3304414.png'">
+                    </div>
+                    <div class="universe-name">熬夜靈感菇</div>
+                    <div class="universe-desc">專治半夜靈感爆發的黑眼圈創作者</div>
+                </div>
+                <!-- 2 -->
+                <div class="universe-card">
+                    <div class="universe-avatar">
+                        <img src="placeholders/uni-2.png" alt="防焦慮藍菇" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3304/3304414.png'">
+                    </div>
+                    <div class="universe-name">日常防焦慮菇</div>
+                    <div class="universe-desc">吸乾你周圍所有緊繃因子的溫柔存在</div>
+                </div>
+                <!-- 3 -->
+                <div class="universe-card">
+                    <div class="universe-avatar">
+                        <img src="placeholders/uni-3.png" alt="純愛粉紅菇" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3304/3304414.png'">
+                    </div>
+                    <div class="universe-name">曖昧純愛菇</div>
+                    <div class="universe-desc">悄悄散發粉紅泡泡的戀愛應援團</div>
+                </div>
+                <!-- 4 -->
+                <div class="universe-card">
+                    <div class="universe-avatar">
+                        <img src="placeholders/uni-4.png" alt="暴富金錢菇" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3304/3304414.png'">
+                    </div>
+                    <div class="universe-name">發財金錢菇</div>
+                    <div class="universe-desc">聽說看著它深呼吸，尾牙中獎機率會提高</div>
+                </div>
+                <!-- 5 -->
+                <div class="universe-card">
+                    <div class="universe-avatar">
+                        <img src="placeholders/uni-5.png" alt="放空雲朵菇" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3304/3304414.png'">
+                    </div>
+                    <div class="universe-name">純粹放空菇</div>
+                    <div class="universe-desc">腦袋當機時最棒的靈魂神隊友</div>
+                </div>
+                <!-- 6 -->
+                <div class="universe-card">
+                    <div class="universe-avatar">
+                        <img src="placeholders/uni-6.png" alt="努力生活菇" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3304/3304414.png'">
+                    </div>
+                    <div class="universe-name">認真生活菇</div>
+                    <div class="universe-desc">獻給所有今天也努力度過一天的你</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 社群與工作坊 (體驗型品牌自然導購順序) -->
+        <section style="background-color: #f6f2ec;">
+            <h2 class="section-title">與靈感菇一起生活</h2>
+            <div class="social-workshop-container">
+                <!-- 社群 -->
+                <div class="sw-card">
+                    <div class="sw-icon"><i class="fa-brands fa-instagram"></i></div>
+                    <h3>菇菇線上互助社群</h3>
+                    <p>加入萬人溫暖社群，分享你的長菇日記，與其他正在努力生活的「菇農」們一起互相拍拍、交換療癒時刻。</p>
+                    <button class="btn-primary" style="padding: 10px 24px; font-size: 14px;">前往 IG 社群</button>
+                </div>
+                <!-- 工作坊 -->
+                <div class="sw-card">
+                    <div class="sw-icon"><i class="fa-solid fa-seedling"></i></div>
+                    <h3>線下情緒療癒工作坊</h3>
+                    <p>結合 IP 黏土創作與壓力釋放冥想。在實體活動中，給自己一整個下午的時間，好好與內心對話。</p>
+                    <button class="btn-primary" style="padding: 10px 24px; font-size: 14px;">查看最新場次</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 商城快速導購區 -->
+        <section class="mall-preview">
+            <h2 class="section-title">帶一隻靈感菇回家</h2>
+            <p style="color: var(--text-light); margin-bottom: 30px;">挑選最懂你當下心情的專屬陪伴者</p>
+            <button class="btn-primary" onclick="scrollToSection('products-section')">立即前往選購</button>
+        </section>
+
+        <!-- 團隊 (簡短可愛職稱) -->
+        <section>
+            <h2 class="section-title">遇見菇菇團隊</h2>
+            <div class="team-grid">
+                <div class="team-card">
+                    <span class="team-role">IP設計</span>
+                    <div class="team-name">小菇</div>
+                </div>
+                <div class="team-card">
+                    <span class="team-role">產品製作</span>
+                    <div class="team-name">阿菇</div>
+                </div>
+                <div class="team-card">
+                    <span class="team-role">3D 建模</span>
+                    <div class="team-name">毛毛菇</div>
+                </div>
+                <div class="team-card">
+                    <span class="team-role">活動企劃</span>
+                    <div class="team-name">大菇</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <!-- ==========================================================================
+       2. PRODUCT DETAIL PAGE (商品詳細頁)
+       ========================================================================== -->
+    <div id="detail-page" class="page">
+        <section>
+            <div style="margin-bottom: 20px;">
+                <a onclick="navigateTo('landing')" style="cursor: pointer; color: var(--text-light); font-size: 14px;">
+                    <i class="fa-solid fa-arrow-left"></i> 返回首頁
+                </a>
+            </div>
+            
+            <div class="detail-container">
+                <!-- 左側：圖片群 -->
+                <div class="detail-left">
+                    <img src="placeholders/main-detail.png" alt="大產品圖" class="main-product-img" id="mainProductImg" onerror="this.src='https://images.unsplash.com/photo-1535254973040-607b474cb50d?w=800&auto=format&fit=crop&q=60'">
+                    <div class="thumb-grid">
+                        <img src="placeholders/main-detail.png" class="thumb-img active" onclick="changeThumb(this)" onerror="this.src='https://images.unsplash.com/photo-1535254973040-607b474cb50d?w=500&auto=format&fit=crop&q=60'">
+                        <img src="placeholders/pack.png" class="thumb-img" onclick="changeThumb(this)" onerror="this.src='https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?w=500&auto=format&fit=crop&q=60'">
+                        <img src="placeholders/sprout.png" class="thumb-img" onclick="changeThumb(this)" onerror="this.src='https://images.unsplash.com/photo-1512428559087-560fa5ceab42?w=500&auto=format&fit=crop&q=60'">
+                        <img src="placeholders/harvest.png" class="thumb-img" onclick="changeThumb(this)" onerror="this.src='https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500&auto=format&fit=crop&q=60'">
+                        <img src="placeholders/context.png" class="thumb-img" onclick="changeThumb(this)" onerror="this.src='https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=500&auto=format&fit=crop&q=60'">
+                    </div>
+                </div>
+
+                <!-- 右側：規格資訊 -->
+                <div class="detail-right">
+                    <span class="detail-brand-tag" id="detailTag">靈感菇系列</span>
+                    <h2 class="detail-title" id="detailTitle">靈感菇・陪伴組</h2>
+                    <p class="detail-price">NT$ 599</p>
+                    <div class="detail-rating">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <span> 4.9 (142個溫暖評價)</span>
+                    </div>
+                    <p class="detail-slogan">「有時候不是需要被拯救，只是需要有人陪你慢慢長大。」</p>
+                    
+                    <div class="detail-contents">
+                        <strong>內容物包含：</strong>
+                        <ul>
+                            <li>透明心情培養瓶 x 1</li>
+                            <li>特製菇菇神奇膠囊 x 1</li>
+                            <li>手繪靈感記錄貼紙 x 1</li>
+                            <li>專屬菇菇身分證 x 1</li>
+                            <li>情緒療癒陪伴小卡 x 1</li>
+                        </ul>
+                    </div>
+
+                    <div class="quantity-selector">
+                        <span>數量：</span>
+                        <button class="qty-btn" onclick="updateQty(-1)">-</button>
+                        <input type="text" class="qty-input" value="1" id="detailQty" readonly>
+                        <button class="qty-btn" onclick="updateQty(1)">+</button>
+                    </div>
+
+                    <button class="btn-primary" style="margin-top: 15px; width: 100%; font-size: 16px;" onclick="addToCart()">
+                        <i class="fa-solid fa-basket-shopping"></i> 加入溫室培養瓶 (購物車)
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB 介紹區 -->
+            <div class="tab-section">
+                <div class="tab-header">
+                    <button class="tab-btn active" onclick="switchTab('intro')">微觀介紹</button>
+                    <button class="tab-btn" onclick="switchTab('method')">種植方式</button>
+                    <button class="tab-btn" onclick="switchTab('notice')">注意事項</button>
+                    <button class="tab-btn" onclick="switchTab('reviews')">留言分享</button>
+                </div>
+                
+                <!-- 介紹 -->
+                <div id="tab-intro" class="tab-content active">
+                    <p>這隻菇特別適合以下的生活狀態：</p>
+                    <div class="intro-target">
+                        <div class="target-tag"><i class="fa-solid fa-bolt"></i> 容易感到日常焦慮的人</div>
+                        <div class="target-tag"><i class="fa-solid fa-moon"></i> 常常熬夜思考未來的創作者</div>
+                        <div class="target-tag"><i class="fa-solid fa-heart"></i> 正在用盡全力認真生活的人</div>
+                    </div>
+                </div>
+
+                <!-- 種植方式 -->
+                <div id="tab-method" class="tab-content">
+                    <ul class="step-list">
+                        <li class="step-item">
+                            <h4>Step 1. 開蓋儀式</h4>
+                            <p>輕輕撕開頂部封條，對著瓶內深呼吸，將今日的煩惱輕輕吐出。</p>
+                        </li>
+                        <li class="step-item">
+                            <h4>Step 2. 溫柔噴水</h4>
+                            <p>使用特製噴霧瓶，每日早晚各噴水 2-3 下，保持膠囊表面微微濕潤。</p>
+                        </li>
+                        <li class="step-item">
+                            <h4>Step 3. 靜心等待長大</h4>
+                            <p>放在通風且微光的桌角，接下來，就交給時間，陪著它也陪著你一起慢慢演進。</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 注意事項 -->
+                <div id="tab-notice" class="tab-content">
+                    <p style="color: var(--text-light); font-size: 14px; line-height: 2;">
+                        ※ 請避免將培養瓶直接曝曬於正午強光下。<br>
+                        ※ 菇菇需要呼吸，請確保擺放環境空氣流通。<br>
+                        ※ 情緒小卡與身分證請好好收藏，那是你們相遇的證明。
+                    </p>
+                </div>
+
+                <!-- 留言分享 -->
+                <div id="tab-reviews" class="tab-content">
+                    <div class="review-item">
+                        <div class="review-text">「現在每天回宿舍第一件事就是看它有沒有長大，真的好治癒...」</div>
+                        <div class="review-user">設計師 Ｍ** 小姐 ・ 2天前</div>
+                    </div>
+                    <div class="review-item">
+                        <div class="review-text">「長菇的那天早上我剛好提案通過，覺得它真的是我的幸運靈感菇！」</div>
+                        <div class="review-user">研究生 林** 同學 ・ 1週前</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <!-- ==========================================================================
+       3. CART PAGE (暖暖療癒感購物車)
+       ========================================================================== -->
+    <div id="cart-page" class="page">
+        <section>
+            <h2 class="section-title">你的溫室培養瓶</h2>
+            
+            <div class="cart-container" id="cartContainer">
+                <!-- 左側：商品列表 (由 JS 動態動態繪製，此處為結構範例) -->
+                <div class="cart-left" id="cartList">
+                    <!-- 範例項目 -->
+                </div>
+
+                <!-- 右側：摘要明細 -->
+                <div class="cart-right">
+                    <div class="summary-box">
+                        <div class="summary-title">訂單摘要</div>
+                        <div class="summary-row">
+                            <span>小計</span>
+                            <span id="subtotalPrice">NT$ 0</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>療癒運費</span>
+                            <span id="shippingPrice">NT$ 60</span>
+                        </div>
+                        <div class="summary-row summary-total">
+                            <span>總計</span>
+                            <span id="totalPrice">NT$ 0</span>
+                        </div>
+                        <button class="btn-primary" style="width: 100%; margin-top: 15px;" onclick="navigateTo('checkout')">
+                            帶菇菇們回家 <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                        <div class="cart-footer-warmtext">
+                            你的菇菇正在等你帶回家 🍄
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <!-- ==========================================================================
+       4. CHECKOUT PAGE (結帳頁)
+       ========================================================================== -->
+    <div id="checkout-page" class="page">
+        <section>
+            <!-- 步驟狀態條 -->
+            <div class="step-bar">
+                <div class="step-node"><div class="step-number">1</div><div class="step-text">購物車</div></div>
+                <div class="step-node active"><div class="step-number">2</div><div class="step-text">資料填寫</div></div>
+                <div class="step-node"><div class="step-number">3</div><div class="step-text">付款安全</div></div>
+                <div class="step-node"><div class="step-number">4</div><div class="step-text">完成訂單</div></div>
+            </div>
+
+            <h2 class="section-title">填寫禮物收件資料</h2>
+
+            <div class="checkout-container">
+                <!-- 左側：表單 -->
+                <div class="checkout-left">
+                    <div class="form-group">
+                        <label>收件人姓名</label>
+                        <input type="text" class="form-control" placeholder="填入真實姓名，讓包裹順利送達">
+                    </div>
+                    <div class="form-group">
+                        <label>聯絡電話</label>
+                        <input type="tel" class="form-control" placeholder="方便物流大哥呼喚你">
+                    </div>
+                    <div class="form-group">
+                        <label>溫暖收件地址</label>
+                        <input type="text" class="form-control" placeholder="請完整填寫縣市與街道門牌">
+                    </div>
+                    <div class="form-group" style="margin-top: 30px;">
+                        <label style="font-weight: 700; color: var(--primary-color);">選擇溫柔的付款方式</label>
+                        <div class="payment-options">
+                            <label class="payment-label">
+                                <input type="radio" name="payment" checked>
+                                <span><i class="fa-solid fa-credit-card"></i> 信用卡 / 金融卡 安全加密付款</span>
+                            </label>
+                            <label class="payment-label">
+                                <input type="radio" name="payment">
+                                <span><i class="fa-solid fa-comment-dollar"></i> LINE Pay 快速療癒支付</span>
+                            </label>
+                            <label class="payment-label">
+                                <input type="radio" name="payment">
+                                <span><i class="fa-solid fa-building-columns"></i> 銀行轉帳 / 匯款</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button class="btn-primary" style="width: 100%; margin-top: 30px; font-size: 16px;" onclick="navigateTo('success')">
+                        確認送出，期待相遇 <i class="fa-solid fa-heart"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <!-- ==========================================================================
+       5. ORDER SUCCESS PAGE (超可愛訂單完成頁)
+       ========================================================================== -->
+    <div id="success-page" class="page">
+        <section>
+            <div class="success-card">
+                <div class="success-gift-animation">
+                    <i class="fa-solid fa-gift"></i>
+                </div>
+                <h2 class="success-title">包裹已打包，靈感正在路上</h2>
+                <p class="success-p">
+                    我們已收到你的心意。菇菇太空艙正在全力為你打包專屬陪伴組，預計 2-3 個工作天內就會送達你的溫室角落。
+                </p>
+                
+                <div class="order-info-box">
+                    <div class="order-info-row">
+                        <span style="color: var(--text-light);">訂單編號</span>
+                        <span style="font-weight: bold; color: var(--primary-color);">#GM-20260527</span>
+                    </div>
+                    <div class="order-info-row">
+                        <span style="color: var(--text-light);">交付品項</span>
+                        <span id="successItemText">靈感菇 陪伴組 等</span>
+                    </div>
+                    <div class="order-info-row">
+                        <span style="color: var(--text-light);">運送狀態</span>
+                        <span style="color: var(--success-color); font-weight: bold;">準備航向你的桌角</span>
+                    </div>
+                </div>
+
+                <button class="btn-primary" onclick="resetAndHome()">
+                    返回首頁繼續漫遊
+                </button>
+            </div>
+        </section>
+    </div>
+
+
+    <!-- 頁尾 -->
+    <footer>
+        <p>© 2026 靈感菇 GUMIND. 讓陪伴成為每天最溫柔的儀式。</p>
+        <p style="font-size: 11px; opacity: 0.7;">本網站所有菇菇角色及圖文內容皆為品牌專屬財產</p>
+    </footer>
+
+
+    <!-- ==========================================================================
+       前端互動核心 JavaScript (模擬真實切換流程)
+       ========================================================================== -->
+    <script>
+        // 模擬購物車資料庫狀態
+        let cart = [];
+        let currentSelectingProduct = "靈感菇";
+
+        // 頁面路由切換
+        function navigateTo(pageId) {
+            // 隱藏所有頁面
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            // 顯示指定頁面
+            document.getElementById(`${pageId}-page`).classList.add('active');
+            // 切換時自動頂部對齊
+            window.scrollTo(0, 0);
+
+            if(pageId === 'cart') {
+                renderCart();
+            }
+        }
+
+        // 首頁錨點平滑捲動
+        function scrollToSection(sectionId) {
+            navigateTo('landing');
+            setTimeout(() => {
+                const target = document.getElementById(sectionId);
+                if(target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            }, 100);
+        }
+
+        // 開啟商品詳細頁，動態變更內容
+        function openProductDetail(productName) {
+            currentSelectingProduct = productName;
+            const titleEl = document.getElementById('detailTitle');
+            const tagEl = document.getElementById('detailTag');
+            const imgEl = document.getElementById('mainProductImg');
+            const qtyEl = document.getElementById('detailQty');
+            
+            qtyEl.value = "1"; // 重設數量為1
+
+            if(productName === '靈感菇') {
+                titleEl.innerText = "靈感菇・陪伴組";
+                tagEl.innerText = "主打首選";
+                imgEl.src = "placeholders/mush-1.png";
+                imgEl.onerror = function() { this.src = 'https://images.unsplash.com/photo-1535254973040-607b474cb50d?w=800&auto=format&fit=crop&q=60'; };
+            } else if(productName === '愛情菇') {
+                titleEl.innerText = "愛情菇・陪伴組";
+                tagEl.innerText = "情感滋養";
+                imgEl.src = "placeholders/mush-2.png";
+                imgEl.onerror = function() { this.src = 'https://images.unsplash.com/photo-1590005354167-6da97870c913?w=800&auto=format&fit=crop&q=60'; };
+            } else if(productName === '金錢菇') {
+                titleEl.innerText = "金錢菇・陪伴組";
+                tagEl.innerText = "財運滿滿";
+                imgEl.src = "placeholders/mush-3.png";
+                imgEl.onerror = function() { this.src = 'https://images.unsplash.com/photo-1570737197414-7560469bf345?w=800&auto=format&fit=crop&q=60'; };
+            }
+
+            // 更新下方 Thumbnails
+            const thumbs = document.querySelectorAll('.thumb-img');
+            thumbs[0].src = imgEl.src;
+
+            navigateTo('detail');
+        }
+
+        // 詳細頁產品小圖點擊切換
+        function changeThumb(element) {
+            document.querySelectorAll('.thumb-img').forEach(thumb => thumb.classList.remove('active'));
+            element.classList.add('active');
+            document.getElementById('mainProductImg').src = element.src;
+        }
+
+        // 詳細頁數量加減
+        function updateQty(change) {
+            const qtyInput = document.getElementById('detailQty');
+            let currentQty = parseInt(qtyInput.value) || 1;
+            currentQty += change;
+            if(currentQty < 1) currentQty = 1;
+            qtyInput.value = currentQty;
+        }
+
+        // 商品詳細頁 TAB 切換
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+        }
+
+        // 加入購物車邏輯
+        function addToCart() {
+            const qty = parseInt(document.getElementById('detailQty').value) || 1;
+            let fullName = currentSelectingProduct + "・陪伴組";
+            
+            // 尋找購物車是否已有相同商品
+            let existingItem = cart.find(item => item.name === fullName);
+            if(existingItem) {
+                existingItem.qty += qty;
+            } else {
+                let imgUrl = "";
+                if(currentSelectingProduct === '靈感菇') imgUrl = "https://images.unsplash.com/photo-1535254973040-607b474cb50d?w=500&auto=format&fit=crop&q=60";
+                if(currentSelectingProduct === '愛情菇') imgUrl = "https://images.unsplash.com/photo-1590005354167-6da97870c913?w=500&auto=format&fit=crop&q=60";
+                if(currentSelectingProduct === '金錢菇') imgUrl = "https://images.unsplash.com/photo-1570737197414-7560469bf345?w=500&auto=format&fit=crop&q=60";
+                
+                cart.push({
+                    name: fullName,
+                    price: 599,
+                    qty: qty,
+                    img: imgUrl
+                });
+            }
+            
+            updateCartBadge();
+            alert(`已成功將 ${qty} 組 ${fullName} 放入培養瓶溫室！`);
+            navigateTo('cart');
+        }
+
+        // 更新導覽列購物車數字
+        function updateCartBadge() {
+            const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+            document.getElementById('cartBadge').innerText = totalQty;
+        }
+
+        // 渲染購物車頁面
+        function renderCart() {
+            const cartListEl = document.getElementById('cartList');
+            if(cart.length === 0) {
+                cartListEl.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: var(--text-light); background: #fff; border-radius:16px; border:1px solid var(--border-color);">
+                        <i class="fa-solid fa-hourglass-empty" style="font-size: 32px; margin-bottom: 15px; color: var(--accent-color);"></i>
+                        <p>你的培養瓶目前空空的，快去帶一隻菇菇來陪伴你吧！</p>
+                    </div>
+                `;
+                document.getElementById('subtotalPrice').innerText = "NT$ 0";
+                document.getElementById('totalPrice').innerText = "NT$ 0";
+                return;
+            }
+
+            let listHtml = "";
+            let subtotal = 0;
+
+            cart.forEach((item, index) => {
+                subtotal += item.price * item.qty;
+                listHtml += `
+                    <div class="cart-item">
+                        <img src="${item.img}" alt="${item.name}" class="cart-item-img">
+                        <div class="cart-item-info">
+                            <div class="cart-item-title">${item.name}</div>
+                            <div class="cart-item-price">NT$ ${item.price}</div>
+                            <div class="quantity-selector" style="margin-top: 5px;">
+                                <button class="qty-btn" style="width:28px; height:28px; font-size:12px;" onclick="changeCartQty(${index}, -1)">-</button>
+                                <span style="font-weight: bold; width: 25px; text-align: center;">${item.qty}</span>
+                                <button class="qty-btn" style="width:28px; height:28px; font-size:12px;" onclick="changeCartQty(${index}, 1)">+</button>
+                            </div>
+                        </div>
+                        <button class="cart-remove-btn" onclick="removeCartItem(${index})"><i class="fa-solid fa-trash-can"></i> 移除</button>
+                    </div>
+                `;
+            });
+
+            cartListEl.innerHTML = listHtml;
+            document.getElementById('subtotalPrice').innerText = `NT$ ${subtotal}`;
+            document.getElementById('totalPrice').innerText = `NT$ ${subtotal + 60}`;
+            
+            // 同步動態更新成功頁面的文字描述
+            document.getElementById('successItemText').innerText = `${cart[0].name} 等物件`;
+        }
+
+        // 購物車數量變更
+        function changeCartQty(index, change) {
+            cart[index].qty += change;
+            if(cart[index].qty < 1) cart[index].qty = 1;
+            updateCartBadge();
+            renderCart();
+        }
+
+        // 購物車項目移除
+        function removeCartItem(index) {
+            cart.splice(index, 1);
+            updateCartBadge();
+            renderCart();
+        }
+
+        // 完成訂單後的重設重置
+        function resetAndHome() {
+            cart = [];
+            updateCartBadge();
+            navigateTo('landing');
+        }
+    </script>
+</body>
+</html>
