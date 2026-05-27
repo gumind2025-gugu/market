@@ -8,7 +8,7 @@
     <!-- 引入 Google 字體與 Icon -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -186,6 +186,7 @@
             height: 100%;
             object-fit: contain;
             animation: float 4s ease-in-out infinite;
+            cursor: pointer;
         }
 
         @keyframes float {
@@ -1045,6 +1046,218 @@
             font-weight: 700;
         }
 
+        /* 隱藏小遊戲 */
+        .game-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(40, 32, 26, 0.55);
+            backdrop-filter: blur(6px);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+        }
+
+        .game-overlay.active {
+            display: flex;
+        }
+
+        .game-window {
+            position: relative;
+            width: min(920px, 96vw);
+            background: #fdf5e6;
+            border: 4px solid #2c221e;
+            border-radius: 28px;
+            box-shadow: 0 22px 60px rgba(44, 34, 30, 0.28);
+            overflow: hidden;
+        }
+
+        .game-close-btn {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            z-index: 50;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 3px solid #2c221e;
+            background: #ffffff;
+            color: #2c221e;
+            font-size: 20px;
+            font-weight: 900;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .game-close-btn:hover {
+            background: #f6d6cd;
+        }
+
+        .game-header {
+            padding: 16px 56px 16px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            background: #f0e6d2;
+            border-bottom: 4px solid #2c221e;
+        }
+
+        .game-title-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .game-title {
+            font-size: 22px;
+            font-weight: 900;
+            color: #2c221e;
+            letter-spacing: 1px;
+        }
+
+        .game-score {
+            color: #2c221e;
+            font-weight: 800;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .game-score span {
+            color: #d6422b;
+            font-size: 18px;
+        }
+
+        .game-sound-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid #2c221e;
+            background: #fdf5e6;
+            color: #2c221e;
+            cursor: pointer;
+        }
+
+        .game-canvas-wrap {
+            position: relative;
+            background: #faf6ee;
+            padding: 10px;
+        }
+
+        #mushroomGameCanvas {
+            width: 100%;
+            height: auto;
+            max-height: 380px;
+            display: block;
+        }
+
+        .game-screen {
+            position: absolute;
+            inset: 0;
+            background: rgba(250, 246, 238, 0.96);
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 28px;
+            text-align: center;
+        }
+
+        .game-screen.hidden {
+            display: none;
+        }
+
+        .game-screen-content {
+            max-width: 420px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .game-mushroom-icon {
+            width: 110px;
+            height: 130px;
+            margin-bottom: 12px;
+            animation: gameBounce 1.2s infinite;
+        }
+
+        @keyframes gameBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        .game-screen h2 {
+            color: #2c221e;
+            font-size: 28px;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        .game-screen p {
+            color: #6d5c50;
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .game-main-btn {
+            padding: 12px 32px;
+            background: #b98d63;
+            color: white;
+            font-weight: 900;
+            font-size: 18px;
+            border-radius: 999px;
+            border: 4px solid #2c221e;
+            box-shadow: 4px 4px 0 #2c221e;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .game-main-btn:hover {
+            transform: translateY(2px);
+            box-shadow: 2px 2px 0 #2c221e;
+        }
+
+        .game-over-title {
+            color: #d6422b !important;
+        }
+
+        .game-control-bar {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            padding: 16px;
+            background: #f0e6d2;
+            border-top: 4px solid #2c221e;
+        }
+
+        .game-control-btn {
+            height: 68px;
+            border-radius: 18px;
+            border: 4px solid #2c221e;
+            color: white;
+            font-size: 20px;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #2c221e;
+        }
+
+        .game-control-btn:active {
+            transform: translateY(4px);
+            box-shadow: none;
+        }
+
+        .game-jump-btn {
+            background: #b98d63;
+        }
+
+        .game-duck-btn {
+            background: #8a7a6e;
+        }
+
         @media (max-width: 768px) {
             .nav-container {
                 flex-direction: column;
@@ -1104,6 +1317,29 @@
             .universe-hero-img {
                 height: 240px;
             }
+
+            .game-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .game-title {
+                font-size: 18px;
+            }
+
+            .game-score {
+                font-size: 12px;
+            }
+
+            .game-control-btn {
+                height: 58px;
+                font-size: 18px;
+            }
+
+            .game-screen h2 {
+                font-size: 24px;
+            }
         }
     </style>
 </head>
@@ -1136,7 +1372,7 @@
         <section class="hero-section">
             <div class="hero-content">
                 <div class="hero-ip-visual">
-                    <img src="首頁菇圖.jpg" alt="靈感菇與透明培養瓶 IP 視覺" class="floating-mushroom">
+                    <img src="首頁菇圖.jpg" alt="靈感菇與透明培養瓶 IP 視覺" class="floating-mushroom" onclick="openMushroomGame()">
                 </div>
 
                 <h1 class="hero-title">靈感菇 GUMIND</h1>
@@ -1393,7 +1629,7 @@
     <div id="universe-detail-page" class="page">
         <section>
             <div style="margin-bottom: 20px;">
-                <a onclick="navigateTo('landing')" style="cursor: pointer; color: var(--text-light); font-size: 14px;">
+                <a onclick="scrollToSection('universe-section')" style="cursor: pointer; color: var(--text-light); font-size: 14px;">
                     <i class="fa-solid fa-arrow-left"></i> 返回菇菇宇宙
                 </a>
             </div>
@@ -1434,7 +1670,7 @@
                 <p>
                     靈感菇希望不只是成為一個產品，而是一個能讓人慢下來、和自己在一起的生活儀式。
                 </p>
-                <div class="coming-soon">下場次敬請期待，正在籌備中！</div>
+                <div class="coming-soon">下次場次敬請期待，正在籌備中</div>
             </div>
         </section>
     </div>
@@ -1571,6 +1807,68 @@
         <p class="footer-contact">聯絡資訊：gumind2025@gmail.com</p>
     </footer>
 
+    <!-- 隱藏小遊戲彈窗 -->
+    <div id="mushroomGameOverlay" class="game-overlay">
+        <div class="game-window">
+            <button class="game-close-btn" onclick="closeMushroomGame()">×</button>
+
+            <div class="game-header">
+                <div class="game-title-group">
+                    <span style="font-size: 28px;">🍄</span>
+                    <h2 class="game-title">香菇大逃脫！</h2>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div class="game-score">
+                        最高: <span id="gameHighScore">00000</span> |
+                        分數: <span id="gameCurrentScore">00000</span>
+                    </div>
+
+                    <button id="gameSoundBtn" class="game-sound-btn">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="game-canvas-wrap">
+                <canvas id="mushroomGameCanvas"></canvas>
+
+                <div id="gameStartScreen" class="game-screen">
+                    <div class="game-screen-content">
+                        <div class="game-mushroom-icon">
+                            <svg viewBox="0 0 100 120" class="w-full h-full">
+                                <ellipse cx="50" cy="112" rx="25" ry="5" fill="#e3dbcb" />
+                                <path d="M32,55 C32,50 30,85 28,95 C26,105 32,110 50,110 C68,110 74,105 72,95 C70,85 68,50 68,55" fill="#fdf5e6" stroke="#2c221e" stroke-width="4.5" />
+                                <circle cx="41" cy="72" r="3.5" fill="#2c221e" />
+                                <circle cx="59" cy="72" r="3.5" fill="#2c221e" />
+                                <line x1="45" y1="80" x2="55" y2="80" stroke="#2c221e" stroke-width="4" stroke-linecap="round" />
+                                <path d="M18,52 C12,52 14,20 50,18 C86,20 88,52 82,52 C76,52 74,48 50,48 C26,48 24,52 18,52 Z" fill="#b98d63" stroke="#2c221e" stroke-width="4.5" />
+                            </svg>
+                        </div>
+
+                        <h2>不要把我放進火鍋！</h2>
+                        <p>使用上、下按鍵，或下方按鈕，幫香菇躲過火鍋與筷子。</p>
+                        <button id="gameStartBtn" class="game-main-btn">開始挑戰</button>
+                    </div>
+                </div>
+
+                <div id="gameOverScreen" class="game-screen hidden">
+                    <div class="game-screen-content">
+                        <h2 class="game-over-title">被煮熟了！♨️</h2>
+                        <p id="gameOverReason">落入麻辣火鍋中...</p>
+                        <p>本次得分：<strong id="gameFinalScore" style="color:#d6422b; font-size: 26px;">0</strong></p>
+                        <button id="gameRestartBtn" class="game-main-btn">重新挑戰</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-control-bar">
+                <button id="gameTouchJump" class="game-control-btn game-jump-btn">上（跳）</button>
+                <button id="gameTouchDuck" class="game-control-btn game-duck-btn">下（蹲）</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         let cart = [];
         let currentSelectingProduct = "靈感菇";
@@ -1655,7 +1953,6 @@
 
         function openProductDetail(productName) {
             currentSelectingProduct = productName;
-
             const data = productData[productName];
 
             document.getElementById('detailTitle').innerText = data.title;
@@ -1793,6 +2090,620 @@
             cart = [];
             updateCartBadge();
             navigateTo('landing');
+        }
+
+        function openMushroomGame() {
+            const overlay = document.getElementById("mushroomGameOverlay");
+            overlay.classList.add("active");
+            initMushroomGameOnce();
+
+            if (typeof window.mushroomGameDraw === "function") {
+                window.mushroomGameDraw();
+            }
+        }
+
+        function closeMushroomGame() {
+            const overlay = document.getElementById("mushroomGameOverlay");
+            overlay.classList.remove("active");
+
+            if (window.mushroomGameAnimationId) {
+                cancelAnimationFrame(window.mushroomGameAnimationId);
+            }
+
+            window.mushroomGameRunning = false;
+            window.mushroomGameOver = true;
+        }
+
+        let mushroomGameInitialized = false;
+
+        function initMushroomGameOnce() {
+            if (mushroomGameInitialized) return;
+            mushroomGameInitialized = true;
+
+            class MushroomSoundFX {
+                constructor() {
+                    this.ctx = null;
+                    this.muted = false;
+                }
+
+                init() {
+                    if (!this.ctx) {
+                        this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+                    }
+                }
+
+                playJump() {
+                    if (this.muted) return;
+                    this.init();
+
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+
+                    osc.type = "triangle";
+                    osc.frequency.setValueAtTime(160, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(650, this.ctx.currentTime + 0.12);
+
+                    gain.gain.setValueAtTime(0.1, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.12);
+
+                    osc.start(this.ctx.currentTime);
+                    osc.stop(this.ctx.currentTime + 0.12);
+                }
+
+                playScore() {
+                    if (this.muted) return;
+                    this.init();
+
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+
+                    osc.type = "square";
+                    osc.frequency.setValueAtTime(600, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(900, this.ctx.currentTime + 0.08);
+
+                    gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.08);
+
+                    osc.start(this.ctx.currentTime);
+                    osc.stop(this.ctx.currentTime + 0.08);
+                }
+
+                playHit() {
+                    if (this.muted) return;
+                    this.init();
+
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+
+                    osc.type = "sawtooth";
+                    osc.frequency.setValueAtTime(180, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(60, this.ctx.currentTime + 0.35);
+
+                    gain.gain.setValueAtTime(0.1, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.35);
+
+                    osc.start(this.ctx.currentTime);
+                    osc.stop(this.ctx.currentTime + 0.35);
+                }
+            }
+
+            const canvas = document.getElementById("mushroomGameCanvas");
+            const ctx = canvas.getContext("2d");
+
+            const startScreen = document.getElementById("gameStartScreen");
+            const gameoverScreen = document.getElementById("gameOverScreen");
+            const startBtn = document.getElementById("gameStartBtn");
+            const restartBtn = document.getElementById("gameRestartBtn");
+            const soundBtn = document.getElementById("gameSoundBtn");
+
+            const highScoreText = document.getElementById("gameHighScore");
+            const currentScoreText = document.getElementById("gameCurrentScore");
+            const finalScoreText = document.getElementById("gameFinalScore");
+            const gameoverReason = document.getElementById("gameOverReason");
+
+            const touchJump = document.getElementById("gameTouchJump");
+            const touchDuck = document.getElementById("gameTouchDuck");
+
+            canvas.width = 900;
+            canvas.height = 360;
+
+            const BASE_SPEED = 6;
+            const SPEED_UP_EVERY_SCORE = 150;
+            const SPEED_UP_AMOUNT = 0.5;
+            const CHOPSTICKS_MIN_Y = 160;
+            const CHOPSTICKS_MAX_Y = 230;
+
+            let score = 0;
+            let highScore = Number(localStorage.getItem("mushroomHighScore")) || 0;
+            let gameSpeed = BASE_SPEED;
+            let frame = 0;
+            let obstacles = [];
+            let isDucking = false;
+
+            window.mushroomGameRunning = false;
+            window.mushroomGameOver = true;
+            window.mushroomGameAnimationId = null;
+
+            const sfx = new MushroomSoundFX();
+
+            const player = {
+                x: 120,
+                y: 0,
+                width: 58,
+                normalHeight: 78,
+                duckHeight: 48,
+                height: 78,
+                vy: 0,
+                gravity: 0.8,
+                jumpPower: -15,
+                grounded: true,
+
+                reset() {
+                    this.height = this.normalHeight;
+                    this.y = groundY() - this.height;
+                    this.vy = 0;
+                    this.grounded = true;
+                },
+
+                jump() {
+                    if (!window.mushroomGameRunning || window.mushroomGameOver) return;
+
+                    if (this.grounded && !isDucking) {
+                        this.vy = this.jumpPower;
+                        this.grounded = false;
+                        sfx.playJump();
+                    }
+                },
+
+                duck(active) {
+                    if (!window.mushroomGameRunning || window.mushroomGameOver) return;
+
+                    isDucking = active;
+
+                    if (this.grounded) {
+                        this.height = active ? this.duckHeight : this.normalHeight;
+                        this.y = groundY() - this.height;
+                    }
+                },
+
+                update() {
+                    this.vy += this.gravity;
+                    this.y += this.vy;
+
+                    if (this.y + this.height >= groundY()) {
+                        this.y = groundY() - this.height;
+                        this.vy = 0;
+                        this.grounded = true;
+                    }
+
+                    if (this.grounded) {
+                        this.height = isDucking ? this.duckHeight : this.normalHeight;
+                        this.y = groundY() - this.height;
+                    }
+                },
+
+                draw() {
+                    ctx.save();
+
+                    const x = this.x;
+                    const y = this.y;
+                    const w = this.width;
+                    const h = this.height;
+
+                    ctx.lineWidth = 4;
+                    ctx.strokeStyle = "#2c221e";
+                    ctx.fillStyle = "#fdf5e6";
+
+                    roundRect(x + 12, y + h * 0.28, w - 24, h * 0.68, 18);
+                    ctx.fill();
+                    ctx.stroke();
+
+                    ctx.fillStyle = "#b98d63";
+                    ctx.beginPath();
+                    ctx.moveTo(x + 5, y + h * 0.35);
+                    ctx.bezierCurveTo(x + 4, y + 5, x + w - 4, y + 5, x + w - 5, y + h * 0.35);
+                    ctx.bezierCurveTo(x + w - 9, y + h * 0.45, x + 10, y + h * 0.45, x + 5, y + h * 0.35);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.stroke();
+
+                    ctx.strokeStyle = "#2c221e";
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(x + 22, y + h * 0.34);
+                    ctx.lineTo(x + 22, y + h * 0.44);
+                    ctx.moveTo(x + 34, y + h * 0.33);
+                    ctx.lineTo(x + 34, y + h * 0.45);
+                    ctx.moveTo(x + 46, y + h * 0.34);
+                    ctx.lineTo(x + 46, y + h * 0.44);
+                    ctx.stroke();
+
+                    ctx.fillStyle = "#2c221e";
+                    ctx.beginPath();
+                    ctx.arc(x + 25, y + h * 0.62, 3.2, 0, Math.PI * 2);
+                    ctx.arc(x + 43, y + h * 0.62, 3.2, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.strokeStyle = "#2c221e";
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+
+                    if (isDucking && this.grounded) {
+                        ctx.moveTo(x + 29, y + h * 0.72);
+                        ctx.quadraticCurveTo(x + 34, y + h * 0.78, x + 39, y + h * 0.72);
+                    } else {
+                        ctx.moveTo(x + 30, y + h * 0.72);
+                        ctx.lineTo(x + 38, y + h * 0.72);
+                    }
+
+                    ctx.stroke();
+
+                    ctx.lineWidth = 4;
+                    ctx.beginPath();
+                    ctx.moveTo(x + 24, y + h * 0.96);
+                    ctx.lineTo(x + 18, y + h + 3);
+                    ctx.moveTo(x + 44, y + h * 0.96);
+                    ctx.lineTo(x + 50, y + h + 3);
+                    ctx.stroke();
+
+                    ctx.restore();
+                }
+            };
+
+            function groundY() {
+                return canvas.height - 58;
+            }
+
+            function formatScore(num) {
+                return String(num).padStart(5, "0");
+            }
+
+            function randomBetween(min, max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+
+            function updateSpeed() {
+                gameSpeed = BASE_SPEED + Math.floor(score / SPEED_UP_EVERY_SCORE) * SPEED_UP_AMOUNT;
+            }
+
+            function spawnObstacle() {
+                const type = Math.random() > 0.5 ? "hotpot" : "chopsticks";
+
+                if (type === "hotpot") {
+                    obstacles.push({
+                        type: "hotpot",
+                        x: canvas.width + 30,
+                        y: groundY() - 54,
+                        width: 70,
+                        height: 54,
+                        passed: false
+                    });
+                } else {
+                    obstacles.push({
+                        type: "chopsticks",
+                        x: canvas.width + 30,
+                        y: randomBetween(CHOPSTICKS_MIN_Y, CHOPSTICKS_MAX_Y),
+                        width: 120,
+                        height: 34,
+                        passed: false
+                    });
+                }
+            }
+
+            function drawBackground() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                ctx.fillStyle = "#faf6ee";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                ctx.fillStyle = "#eadfca";
+                for (let i = 0; i < 12; i++) {
+                    const x = (i * 95 - frame * 0.4) % canvas.width;
+                    ctx.beginPath();
+                    ctx.arc(x, 80 + (i % 3) * 30, 4, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                ctx.fillStyle = "#e8dcc8";
+                ctx.fillRect(0, groundY(), canvas.width, canvas.height - groundY());
+
+                ctx.strokeStyle = "#2c221e";
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.moveTo(0, groundY());
+                ctx.lineTo(canvas.width, groundY());
+                ctx.stroke();
+            }
+
+            function drawObstacle(obs) {
+                ctx.save();
+                ctx.lineWidth = 4;
+                ctx.strokeStyle = "#2c221e";
+
+                if (obs.type === "hotpot") {
+                    ctx.fillStyle = "#d6422b";
+                    roundRect(obs.x, obs.y + 12, obs.width, obs.height - 12, 14);
+                    ctx.fill();
+                    ctx.stroke();
+
+                    ctx.fillStyle = "#ff9b54";
+                    ctx.beginPath();
+                    ctx.ellipse(obs.x + obs.width / 2, obs.y + 15, obs.width / 2 - 4, 13, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.stroke();
+
+                    ctx.fillStyle = "#fff0bd";
+                    ctx.beginPath();
+                    ctx.arc(obs.x + 22, obs.y + 14, 5, 0, Math.PI * 2);
+                    ctx.arc(obs.x + 44, obs.y + 17, 4, 0, Math.PI * 2);
+                    ctx.fill();
+                } else {
+                    const x = obs.x;
+                    const y = obs.y;
+                    const w = obs.width;
+
+                    ctx.strokeStyle = "#5c3a21";
+                    ctx.lineWidth = 8;
+                    ctx.lineCap = "round";
+
+                    ctx.beginPath();
+                    ctx.moveTo(x, y);
+                    ctx.lineTo(x + w, y + 8);
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.moveTo(x, y + 24);
+                    ctx.lineTo(x + w, y + 32);
+                    ctx.stroke();
+
+                    ctx.strokeStyle = "#b98d63";
+                    ctx.lineWidth = 3;
+
+                    ctx.beginPath();
+                    ctx.moveTo(x + 8, y - 2);
+                    ctx.lineTo(x + w - 8, y + 6);
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.moveTo(x + 8, y + 22);
+                    ctx.lineTo(x + w - 8, y + 30);
+                    ctx.stroke();
+                }
+
+                ctx.restore();
+            }
+
+            function checkCollision(a, b) {
+                const padding = 10;
+
+                return (
+                    a.x + padding < b.x + b.width - padding &&
+                    a.x + a.width - padding > b.x + padding &&
+                    a.y + padding < b.y + b.height - padding &&
+                    a.y + a.height - padding > b.y + padding
+                );
+            }
+
+            function update() {
+                frame++;
+                score++;
+                updateSpeed();
+
+                currentScoreText.textContent = formatScore(score);
+
+                if (score > highScore) {
+                    highScoreText.textContent = formatScore(score);
+                }
+
+                player.update();
+
+                const spawnInterval = Math.max(72, 112 - Math.floor(gameSpeed * 4));
+
+                if (frame % spawnInterval === 0) {
+                    spawnObstacle();
+                }
+
+                obstacles.forEach(obs => {
+                    obs.x -= gameSpeed;
+
+                    if (!obs.passed && obs.x + obs.width < player.x) {
+                        obs.passed = true;
+                        sfx.playScore();
+                    }
+
+                    if (checkCollision(player, obs)) {
+                        if (obs.type === "hotpot") {
+                            endGame("撞進火鍋裡，被煮熟了...");
+                        } else {
+                            endGame("被筷子夾走了...");
+                        }
+                    }
+                });
+
+                obstacles = obstacles.filter(obs => obs.x + obs.width > -80);
+            }
+
+            function mushroomGameDraw() {
+                drawBackground();
+
+                obstacles.forEach(drawObstacle);
+                player.draw();
+
+                ctx.save();
+                ctx.fillStyle = "#8a7a6e";
+                ctx.font = "bold 16px Noto Sans TC";
+                ctx.fillText("速度：" + gameSpeed.toFixed(1), 20, 32);
+
+                if (score >= 150) {
+                    ctx.fillStyle = "#d6422b";
+                    ctx.fillText("加速中！", 110, 32);
+                }
+
+                ctx.restore();
+            }
+
+            window.mushroomGameDraw = mushroomGameDraw;
+
+            function gameLoop() {
+                if (!window.mushroomGameRunning || window.mushroomGameOver) return;
+
+                update();
+                mushroomGameDraw();
+
+                window.mushroomGameAnimationId = requestAnimationFrame(gameLoop);
+            }
+
+            function startGame() {
+                if (window.mushroomGameAnimationId) {
+                    cancelAnimationFrame(window.mushroomGameAnimationId);
+                }
+
+                score = 0;
+                frame = 0;
+                gameSpeed = BASE_SPEED;
+                obstacles = [];
+                isDucking = false;
+
+                window.mushroomGameRunning = true;
+                window.mushroomGameOver = false;
+
+                player.reset();
+
+                currentScoreText.textContent = formatScore(score);
+                highScoreText.textContent = formatScore(highScore);
+
+                startScreen.classList.add("hidden");
+                gameoverScreen.classList.add("hidden");
+
+                mushroomGameDraw();
+                gameLoop();
+            }
+
+            function endGame(reason) {
+                window.mushroomGameRunning = false;
+                window.mushroomGameOver = true;
+
+                if (window.mushroomGameAnimationId) {
+                    cancelAnimationFrame(window.mushroomGameAnimationId);
+                }
+
+                sfx.playHit();
+
+                if (score > highScore) {
+                    highScore = score;
+                    localStorage.setItem("mushroomHighScore", highScore);
+                }
+
+                highScoreText.textContent = formatScore(highScore);
+                finalScoreText.textContent = score;
+                gameoverReason.textContent = reason;
+
+                gameoverScreen.classList.remove("hidden");
+            }
+
+            function roundRect(x, y, width, height, radius) {
+                ctx.beginPath();
+                ctx.moveTo(x + radius, y);
+                ctx.lineTo(x + width - radius, y);
+                ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+                ctx.lineTo(x + width, y + height - radius);
+                ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+                ctx.lineTo(x + radius, y + height);
+                ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+                ctx.lineTo(x, y + radius);
+                ctx.quadraticCurveTo(x, y, x + radius, y);
+                ctx.closePath();
+            }
+
+            window.addEventListener("keydown", function(e) {
+                const overlay = document.getElementById("mushroomGameOverlay");
+
+                if (!overlay.classList.contains("active")) return;
+
+                if (e.key === "ArrowUp" || e.key === " ") {
+                    e.preventDefault();
+
+                    if (!window.mushroomGameRunning || window.mushroomGameOver) {
+                        startGame();
+                    } else {
+                        player.jump();
+                    }
+                }
+
+                if (e.key === "ArrowDown") {
+                    e.preventDefault();
+                    player.duck(true);
+                }
+
+                if (e.key === "Escape") {
+                    closeMushroomGame();
+                }
+            });
+
+            window.addEventListener("keyup", function(e) {
+                const overlay = document.getElementById("mushroomGameOverlay");
+
+                if (!overlay.classList.contains("active")) return;
+
+                if (e.key === "ArrowDown") {
+                    e.preventDefault();
+                    player.duck(false);
+                }
+            });
+
+            startBtn.addEventListener("click", startGame);
+            restartBtn.addEventListener("click", startGame);
+
+            touchJump.addEventListener("click", function() {
+                if (!window.mushroomGameRunning || window.mushroomGameOver) {
+                    startGame();
+                } else {
+                    player.jump();
+                }
+            });
+
+            touchDuck.addEventListener("touchstart", function(e) {
+                e.preventDefault();
+                player.duck(true);
+            });
+
+            touchDuck.addEventListener("touchend", function(e) {
+                e.preventDefault();
+                player.duck(false);
+            });
+
+            touchDuck.addEventListener("mousedown", function() {
+                player.duck(true);
+            });
+
+            touchDuck.addEventListener("mouseup", function() {
+                player.duck(false);
+            });
+
+            touchDuck.addEventListener("mouseleave", function() {
+                player.duck(false);
+            });
+
+            soundBtn.addEventListener("click", function() {
+                sfx.muted = !sfx.muted;
+
+                soundBtn.innerHTML = sfx.muted
+                    ? '<i class="fas fa-volume-mute"></i>'
+                    : '<i class="fas fa-volume-up"></i>';
+            });
+
+            highScoreText.textContent = formatScore(highScore);
+            player.reset();
+            mushroomGameDraw();
         }
     </script>
 </body>
