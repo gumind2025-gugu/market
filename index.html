@@ -184,13 +184,15 @@
         .floating-mushroom {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
             animation: float 4s ease-in-out infinite;
         }
 
         @keyframes float {
             0% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-8px) rotate(2deg); }
+            25% { transform: translateY(-10px) rotate(-2deg); }
+            50% { transform: translateY(-16px) rotate(3deg); }
+            75% { transform: translateY(-8px) rotate(-1.5deg); }
             100% { transform: translateY(0px) rotate(0deg); }
         }
 
@@ -275,7 +277,7 @@
         .product-card-img {
             width: 100%;
             height: 260px;
-            object-fit: cover;
+            object-fit: contain;
             background-color: #faf6f0;
         }
 
@@ -373,7 +375,7 @@
         .journey-img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
         }
 
         .journey-dot {
@@ -391,7 +393,7 @@
         .universe-hero-img {
             width: 100%;
             height: 360px;
-            object-fit: cover;
+            object-fit: contain;
             border-radius: 24px;
             border: 1px solid var(--border-color);
             margin-bottom: 35px;
@@ -432,7 +434,7 @@
         .universe-avatar img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
         }
 
         .universe-name {
@@ -499,7 +501,7 @@
             width: 120px;
             height: 120px;
             border-radius: 50%;
-            object-fit: cover;
+            object-fit: contain;
             margin: 0 auto 18px auto;
             border: 4px solid #f3ede4;
             background-color: #f9f6f1;
@@ -546,7 +548,7 @@
             height: 520px;
             background-color: white;
             border-radius: 20px;
-            object-fit: cover;
+            object-fit: contain;
             border: 1px solid var(--border-color);
         }
 
@@ -661,7 +663,7 @@
             flex: 1;
             min-width: 320px;
             height: 500px;
-            object-fit: cover;
+            object-fit: contain;
             border-radius: 24px;
             border: 1px solid var(--border-color);
             background-color: #f9f6f1;
@@ -687,12 +689,13 @@
             line-height: 2;
             font-size: 16px;
             margin-bottom: 25px;
+            white-space: pre-line;
         }
 
         .workshop-photo {
             width: 100%;
             height: 430px;
-            object-fit: cover;
+            object-fit: contain;
             border-radius: 24px;
             border: 1px solid var(--border-color);
             margin-bottom: 35px;
@@ -762,7 +765,7 @@
         .cart-item-img {
             width: 90px;
             height: 90px;
-            object-fit: cover;
+            object-fit: contain;
             border-radius: 10px;
             background-color: #faf6f0;
         }
@@ -1079,7 +1082,7 @@
 
             .journey-content,
             .journey-img-box {
-                width: 100%;
+                width: calc(100% - 40px);
                 margin-left: 40px;
             }
 
@@ -1129,7 +1132,6 @@
         </div>
     </header>
 
-    <!-- 1. 首頁 -->
     <div id="landing-page" class="page active">
         <section class="hero-section">
             <div class="hero-content">
@@ -1153,7 +1155,6 @@
             </div>
         </section>
 
-        <!-- 產品 -->
         <section id="products-section">
             <h2 class="section-title">認識你的靈感菇</h2>
 
@@ -1187,7 +1188,6 @@
             </div>
         </section>
 
-        <!-- 種植旅程 -->
         <section style="background-color: #faf6f0;">
             <h2 class="section-title">種植旅程</h2>
 
@@ -1232,7 +1232,6 @@
             </div>
         </section>
 
-        <!-- 菇菇宇宙 -->
         <section id="universe-section">
             <h2 class="section-title">菇菇宇宙</h2>
 
@@ -1276,7 +1275,6 @@
             </div>
         </section>
 
-        <!-- 社群與工作坊 -->
         <section style="background-color: #f6f2ec;">
             <h2 class="section-title">與靈感菇一起生活</h2>
 
@@ -1299,14 +1297,12 @@
             </div>
         </section>
 
-        <!-- 商城 -->
         <section class="mall-preview">
             <h2 class="section-title">帶一隻靈感菇回家</h2>
             <p style="color: var(--text-light); margin-bottom: 30px;">挑選最懂你當下心情的專屬陪伴者</p>
             <button class="btn-primary" onclick="scrollToSection('products-section')">立即前往選購</button>
         </section>
 
-        <!-- 團隊 -->
         <section id="team-section">
             <h2 class="section-title">遇見菇勇者團隊</h2>
 
@@ -1335,7 +1331,6 @@
         </section>
     </div>
 
-    <!-- 2. 商品詳細頁 -->
     <div id="detail-page" class="page">
         <section>
             <div style="margin-bottom: 20px;">
@@ -1395,7 +1390,6 @@
         </section>
     </div>
 
-    <!-- 3. 菇菇宇宙詳細頁 -->
     <div id="universe-detail-page" class="page">
         <section>
             <div style="margin-bottom: 20px;">
@@ -1408,17 +1402,17 @@
                 <img src="介紹靈感菇.jpg" alt="菇菇角色照片" class="universe-detail-img" id="universeDetailImg">
 
                 <div class="universe-detail-text">
-                    <h2 id="universeDetailName">介紹靈感菇</h2>
+                    <h2 id="universeDetailName">靈感菇</h2>
                     <p id="universeDetailDesc">
-                        牠陪伴那些半夜還在冒靈感、腦袋停不下來的人。提醒你：努力很重要，但睡覺也是靈感長大的養分。
+                        「我是靈感菇☁️，我最大的技能是：把『等等再做』拖成『明天再說』。」
+                        是一隻非常會拖延的菇。每天都說「等一下再開始」，最後直接開始休息，但莫名地，很會安慰人。
                     </p>
-                    <button class="btn-primary" onclick="navigateTo('landing')">回到首頁</button>
+                    <button class="btn-primary" onclick="scrollToSection('universe-section')">回到菇菇宇宙</button>
                 </div>
             </div>
         </section>
     </div>
 
-    <!-- 4. 工作坊頁 -->
     <div id="workshop-page" class="page">
         <section>
             <div style="margin-bottom: 20px;">
@@ -1445,7 +1439,6 @@
         </section>
     </div>
 
-    <!-- 5. 購物車 -->
     <div id="cart-page" class="page">
         <section>
             <h2 class="section-title">你的溫室培養瓶</h2>
@@ -1480,7 +1473,6 @@
         </section>
     </div>
 
-    <!-- 6. 結帳頁 -->
     <div id="checkout-page" class="page">
         <section>
             <div class="step-bar">
@@ -1538,7 +1530,6 @@
         </section>
     </div>
 
-    <!-- 7. 訂單完成頁 -->
     <div id="success-page" class="page">
         <section>
             <div class="success-card">
@@ -1611,32 +1602,32 @@
         const universeData = {
             "靈感菇": {
                 img: "介紹靈感菇.jpg",
-                desc: "「我是靈感菇☁️，我最大的技能是：把『等等再做』拖成『明天再說』。」
+                desc: `「我是靈感菇☁️，我最大的技能是：把『等等再做』拖成『明天再說』。」
 是一隻非常會拖延的菇。
-每天都說「等一下再開始」，最後直接開始休息，但莫名地，很會安慰人。"
+每天都說「等一下再開始」，最後直接開始休息，但莫名地，很會安慰人。`
             },
             "瑚菇婆": {
                 img: "瑚菇婆.jpg",
-                desc: "「我是瑚菇婆🌸。別人戀愛腦，我是戀愛菇。他三分鐘沒回，我已經腦補分手。」
+                desc: `「我是瑚菇婆🌸。別人戀愛腦，我是戀愛菇。他三分鐘沒回，我已經腦補分手。」
 外表像戀愛專家。
-實際上對方晚回三分鐘就開始腦內小劇場，很會照顧別人，卻常常忘記照顧自己。"
+實際上對方晚回三分鐘就開始腦內小劇場，很會照顧別人，卻常常忘記照顧自己。`
             },
             "菇嚕": {
                 img: "菇嚕.jpg",
-                desc: "「我是菇嚕🫧！沒有夢想，沒有目標。但看到別人吃東西會想跟著吃。」
-每天都不知道自己在幹嘛，會突然出現在大家旁邊傻笑。雖然腦袋空空，但意外地很療癒。"
+                desc: `「我是菇嚕🫧！沒有夢想，沒有目標。但看到別人吃東西會想跟著吃。」
+每天都不知道自己在幹嘛，會突然出現在大家旁邊傻笑。雖然腦袋空空，但意外地很療癒。`
             },
             "菇蘑寧": {
                 img: "菇蘑寧.jpg",
-                desc: "「菇～蘑寧☀️！每天負責叫大家起床。但我自己其實都睡到最後一秒。」
+                desc: `「菇～蘑寧☀️！每天負責叫大家起床。但我自己其實都睡到最後一秒。」
 每天都很有精神地跟大家說早安，但其實鬧鐘通常要響五次才會起床。
-是軍團裡最像小狗的菇。"
+是軍團裡最像小狗的菇。`
             },
             "咕咕菇": {
                 img: "咕咕菇.jpg",
-                desc: "「我是咕咕菇🌙，擅長凌晨三點想人生。已讀不回不是討厭你，是我在放空。」
-總是在半夜出沒…明明看起來很冷淡，卻會默默陪朋友聊到凌晨四點。
-最大的興趣是胡思亂想和賴床。"
+                desc: `「我是咕咕菇🌙，擅長凌晨三點想人生。已讀不回不是討厭你，是我在放空。」
+總是在半夜出沒。明明看起來很冷淡，卻會默默陪朋友聊到凌晨四點。
+最大的興趣是胡思亂想和賴床。`
             }
         };
 
@@ -1706,16 +1697,15 @@
             const qty = parseInt(document.getElementById('detailQty').value) || 1;
             const data = productData[currentSelectingProduct];
 
-            let fullName = data.title;
-
-            let existingItem = cart.find(item => item.name === fullName);
+            const fullName = data.title;
+            const existingItem = cart.find(item => item.name === fullName);
 
             if (existingItem) {
                 existingItem.qty += qty;
             } else {
                 cart.push({
                     name: fullName,
-                    price: 599,
+                    price: 399,
                     qty: qty,
                     img: data.img
                 });
