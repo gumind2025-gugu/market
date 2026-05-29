@@ -1511,7 +1511,7 @@
             </div>
         </section>
 
-        <section style="background-color: #f6f2ec;">
+        <section id="social-workshop-section" style="background-color: #f6f2ec;">
             <h2 class="section-title">與靈感菇一起生活</h2>
 
             <div class="social-workshop-container">
@@ -1570,8 +1570,8 @@
     <div id="detail-page" class="page">
         <section>
             <div style="margin-bottom: 20px;">
-                <a onclick="navigateTo('landing')" style="cursor: pointer; color: var(--text-light); font-size: 14px;">
-                    <i class="fa-solid fa-arrow-left"></i> 返回首頁
+                <a onclick="scrollToSection('products-section')" style="cursor: pointer; color: var(--text-light); font-size: 14px;">
+                    <i class="fa-solid fa-arrow-left"></i> 返回探索菇菇
                 </a>
             </div>
 
@@ -1605,7 +1605,7 @@
                         <ul>
                             <li>透明心情培養瓶 x 1</li>
                             <li>特製菇菇神奇膠囊 x 1</li>
-                            <li>手繪靈感記錄貼紙 x 1</li>
+                            <li>隨機靈感菇紀念貼紙 x 1</li>
                             <li>專屬菇菇身分證 x 1</li>
                             <li>情緒療癒陪伴小卡 x 1</li>
                         </ul>
@@ -1652,8 +1652,8 @@
     <div id="workshop-page" class="page">
         <section>
             <div style="margin-bottom: 20px;">
-                <a onclick="navigateTo('landing')" style="cursor: pointer; color: var(--text-light); font-size: 14px;">
-                    <i class="fa-solid fa-arrow-left"></i> 返回首頁
+                <a onclick="scrollToSection('social-workshop-section')" style="cursor: pointer; color: var(--text-light); font-size: 14px;">
+                    <i class="fa-solid fa-arrow-left"></i> 返回與靈感菇一起生活
                 </a>
             </div>
 
@@ -1689,16 +1689,15 @@
                             <span>小計</span>
                             <span id="subtotalPrice">NT$ 0</span>
                         </div>
-                        <div class="summary-row">
-                            <span>療癒運費</span>
-                            <span id="shippingPrice">NT$ 60</span>
-                        </div>
                         <div class="summary-row summary-total">
                             <span>總計</span>
                             <span id="totalPrice">NT$ 0</span>
                         </div>
                         <button class="btn-primary" style="width: 100%; margin-top: 15px;" onclick="navigateTo('checkout')">
                             帶菇菇們回家 <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                        <button class="btn-primary" style="width: 100%; margin-top: 12px; background-color: #ffffff; color: var(--primary-color); border: 1px solid var(--border-color); box-shadow: none;" onclick="scrollToSection('products-section')">
+                            再繼續去逛逛 <i class="fa-solid fa-seedling"></i>
                         </button>
                         <div class="cart-footer-warmtext">
                             你的菇菇正在等你帶回家 🍄
@@ -1724,17 +1723,17 @@
                 <div class="checkout-left">
                     <div class="form-group">
                         <label>收件人姓名</label>
-                        <input type="text" class="form-control" placeholder="填入真實姓名，讓包裹順利送達">
+                        <input type="text" id="recipientName" class="form-control" placeholder="填入真實姓名，讓包裹順利送達" required>
                     </div>
 
                     <div class="form-group">
                         <label>聯絡電話</label>
-                        <input type="tel" class="form-control" placeholder="方便物流大哥呼喚你">
+                        <input type="tel" id="recipientPhone" class="form-control" placeholder="方便物流大哥呼喚你" required>
                     </div>
 
                     <div class="form-group">
                         <label>溫暖收件地址</label>
-                        <input type="text" class="form-control" placeholder="請完整填寫縣市與街道門牌">
+                        <input type="text" id="recipientAddress" class="form-control" placeholder="請完整填寫縣市與街道門牌" required>
                     </div>
 
                     <div class="form-group" style="margin-top: 30px;">
@@ -1742,25 +1741,35 @@
 
                         <div class="payment-options">
                             <label class="payment-label">
-                                <input type="radio" name="payment" checked>
+                                <input type="radio" name="payment" value="信用卡 / 金融卡" required checked>
                                 <span><i class="fa-solid fa-credit-card"></i> 信用卡 / 金融卡 安全加密付款</span>
                             </label>
 
                             <label class="payment-label">
-                                <input type="radio" name="payment">
+                                <input type="radio" name="payment" value="LINE Pay" required>
                                 <span><i class="fa-solid fa-comment-dollar"></i> LINE Pay 快速療癒支付</span>
                             </label>
 
                             <label class="payment-label">
-                                <input type="radio" name="payment">
+                                <input type="radio" name="payment" value="銀行轉帳 / 匯款" required>
                                 <span><i class="fa-solid fa-building-columns"></i> 銀行轉帳 / 匯款</span>
+                            </label>
+
+                            <label class="payment-label">
+                                <input type="radio" name="payment" value="貨到付款" required>
+                                <span><i class="fa-solid fa-truck-fast"></i> 貨到付款</span>
                             </label>
                         </div>
                     </div>
 
-                    <button class="btn-primary" style="width: 100%; margin-top: 30px; font-size: 16px;" onclick="navigateTo('success')">
-                        確認送出，期待相遇 <i class="fa-solid fa-heart"></i>
-                    </button>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 30px;">
+                        <button class="btn-primary" style="width: 100%; background-color: #ffffff; color: var(--primary-color); border: 1px solid var(--border-color); box-shadow: none;" onclick="navigateTo('cart')">
+                            <i class="fa-solid fa-arrow-left"></i> 回到前一頁培養瓶
+                        </button>
+                        <button class="btn-primary" style="width: 100%; font-size: 16px;" onclick="submitCheckout()">
+                            確認送出，期待相遇 <i class="fa-solid fa-heart"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -2065,7 +2074,7 @@
             cartListEl.innerHTML = listHtml;
 
             document.getElementById('subtotalPrice').innerText = `NT$ ${subtotal}`;
-            document.getElementById('totalPrice').innerText = `NT$ ${subtotal + 60}`;
+            document.getElementById('totalPrice').innerText = `NT$ ${subtotal}`;
             document.getElementById('successItemText').innerText = `${cart[0].name} 等物件`;
         }
 
@@ -2084,6 +2093,38 @@
             cart.splice(index, 1);
             updateCartBadge();
             renderCart();
+        }
+
+        function submitCheckout() {
+            const nameInput = document.getElementById('recipientName');
+            const phoneInput = document.getElementById('recipientPhone');
+            const addressInput = document.getElementById('recipientAddress');
+            const selectedPayment = document.querySelector('input[name="payment"]:checked');
+
+            if (!nameInput.value.trim()) {
+                alert('請填寫收件人姓名');
+                nameInput.focus();
+                return;
+            }
+
+            if (!phoneInput.value.trim()) {
+                alert('請填寫聯絡電話');
+                phoneInput.focus();
+                return;
+            }
+
+            if (!addressInput.value.trim()) {
+                alert('請填寫溫暖收件地址');
+                addressInput.focus();
+                return;
+            }
+
+            if (!selectedPayment) {
+                alert('請選擇溫柔的付款方式');
+                return;
+            }
+
+            navigateTo('success');
         }
 
         function resetAndHome() {
