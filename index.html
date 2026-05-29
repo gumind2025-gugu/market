@@ -1732,6 +1732,11 @@
                     </div>
 
                     <div class="form-group">
+                        <label>電子郵件</label>
+                        <input type="email" id="recipientEmail" class="form-control" placeholder="方便我們寄送訂單通知" required>
+                    </div>
+
+                    <div class="form-group">
                         <label>溫暖收件地址</label>
                         <input type="text" id="recipientAddress" class="form-control" placeholder="請完整填寫縣市與街道門牌" required>
                     </div>
@@ -1803,6 +1808,11 @@
                     </div>
 
                     <div class="order-info-row">
+                        <span style="color: var(--text-light);">電子郵件</span>
+                        <span id="confirmEmail" style="font-weight: bold; color: var(--primary-color); text-align: right;"></span>
+                    </div>
+
+                    <div class="order-info-row">
                         <span style="color: var(--text-light);">溫暖收件地址</span>
                         <span id="confirmAddress" style="font-weight: bold; color: var(--primary-color); text-align: right;"></span>
                     </div>
@@ -1828,7 +1838,7 @@
                         <i class="fa-solid fa-pen-to-square"></i> 重新更正
                     </button>
 
-                    <button class="btn-primary" style="width: 100%;" onclick="completeOrder()">
+                    <button id="finalSubmitBtn" class="btn-primary" style="width: 100%;" onclick="completeOrder()">
                         確認資料正確 <i class="fa-solid fa-check"></i>
                     </button>
                 </div>
@@ -1852,7 +1862,7 @@
                 <div class="order-info-box">
                     <div class="order-info-row">
                         <span style="color: var(--text-light);">訂單編號</span>
-                        <span style="font-weight: bold; color: var(--primary-color);">#GM-20260527</span>
+                        <span id="successOrderId" style="font-weight: bold; color: var(--primary-color);">#GM-等待建立</span>
                     </div>
 
                     <div class="order-info-row">
@@ -1942,6 +1952,7 @@
     <script>
         let cart = [];
         let currentSelectingProduct = "靈感菇";
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzx9E9HODR_yPtIhRkxQYoLxlS6A9rkl1XrgqzVOL8TD6CfoC0wa1HFp8en8hupNAxdEQ/exec";
 
         const productData = {
             "靈感菇": {
@@ -2202,6 +2213,7 @@
         function submitCheckout() {
             const nameInput = document.getElementById('recipientName');
             const phoneInput = document.getElementById('recipientPhone');
+            const emailInput = document.getElementById('recipientEmail');
             const addressInput = document.getElementById('recipientAddress');
             const selectedPayment = document.querySelector('input[name="payment"]:checked');
 
@@ -2229,6 +2241,18 @@
                 return;
             }
 
+            if (!emailInput.value.trim()) {
+                alert('請填寫電子郵件');
+                emailInput.focus();
+                return;
+            }
+
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value.trim())) {
+                alert('請填寫正確的電子郵件格式');
+                emailInput.focus();
+                return;
+            }
+
             if (!addressInput.value.trim()) {
                 alert('請填寫溫暖收件地址');
                 addressInput.focus();
@@ -2242,6 +2266,7 @@
 
             document.getElementById('confirmName').innerText = nameInput.value.trim();
             document.getElementById('confirmPhone').innerText = phoneInput.value.trim();
+            document.getElementById('confirmEmail').innerText = emailInput.value.trim();
             document.getElementById('confirmAddress').innerText = addressInput.value.trim();
             document.getElementById('confirmPayment').innerText = selectedPayment.value;
             document.getElementById('confirmItems').innerText = getCartItemsText();
@@ -2250,14 +2275,61 @@
             navigateTo('confirm');
         }
 
-        function completeOrder() {
-            document.getElementById('successItemText').innerText = getCartItemsText();
-            navigateTo('success');
+        async function completeOrder() {
+            if (cart.length === 0) {
+                alert('你的培養瓶目前還沒有菇菇，請先選購產品。');
+                navigateTo('cart');
+                return;
+            }
+
+            const finalSubmitBtn = document.getElementById('finalSubmitBtn');
+            const orderId = `GM-${Date.now()}`;
+
+            const orderData = {
+                orderId: orderId,
+                name: document.getElementById('recipientName').value.trim(),
+                phone: document.getElementById('recipientPhone').value.trim(),
+                email: document.getElementById('recipientEmail').value.trim(),
+                address: document.getElementById('recipientAddress').value.trim(),
+                payment: document.querySelector('input[name="payment"]:checked').value,
+                items: getCartItemsText(),
+                total: getCartTotal()
+            };
+
+            finalSubmitBtn.disabled = true;
+            finalSubmitBtn.innerHTML = '訂單送出中... <i class="fa-solid fa-spinner fa-spin"></i>';
+
+            try {
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8'
+                    },
+                    body: JSON.stringify(orderData)
+                });
+
+                document.getElementById('successOrderId').innerText = `#${orderId}`;
+                document.getElementById('successItemText').innerText = getCartItemsText();
+                navigateTo('success');
+            } catch (error) {
+                alert('訂單送出失敗，請稍後再試，或直接聯絡我們。');
+                console.error(error);
+            } finally {
+                finalSubmitBtn.disabled = false;
+                finalSubmitBtn.innerHTML = '確認資料正確 <i class="fa-solid fa-check"></i>';
+            }
         }
 
         function resetAndHome() {
             cart = [];
             updateCartBadge();
+
+            document.getElementById('recipientName').value = '';
+            document.getElementById('recipientPhone').value = '';
+            document.getElementById('recipientEmail').value = '';
+            document.getElementById('recipientAddress').value = '';
+
             navigateTo('landing');
         }
 
