@@ -1693,7 +1693,7 @@
                             <span>總計</span>
                             <span id="totalPrice">NT$ 0</span>
                         </div>
-                        <button class="btn-primary" style="width: 100%; margin-top: 15px;" onclick="navigateTo('checkout')">
+                        <button id="checkoutBtn" class="btn-primary" style="width: 100%; margin-top: 15px;" onclick="goToCheckout()">
                             帶菇菇們回家 <i class="fa-solid fa-arrow-right"></i>
                         </button>
                         <button class="btn-primary" style="width: 100%; margin-top: 12px; background-color: #ffffff; color: var(--primary-color); border: 1px solid var(--border-color); box-shadow: none;" onclick="scrollToSection('products-section')">
@@ -1728,7 +1728,7 @@
 
                     <div class="form-group">
                         <label>聯絡電話</label>
-                        <input type="tel" id="recipientPhone" class="form-control" placeholder="方便物流大哥呼喚你" required>
+                        <input type="tel" id="recipientPhone" class="form-control" inputmode="numeric" pattern="[0-9]*" placeholder="方便物流大哥呼喚你" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                     </div>
 
                     <div class="form-group">
@@ -1770,6 +1770,67 @@
                             確認送出，期待相遇 <i class="fa-solid fa-heart"></i>
                         </button>
                     </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="confirm-page" class="page">
+        <section>
+            <div class="step-bar">
+                <div class="step-node"><div class="step-number">1</div><div class="step-text">購物車</div></div>
+                <div class="step-node"><div class="step-number">2</div><div class="step-text">資料填寫</div></div>
+                <div class="step-node active"><div class="step-number">3</div><div class="step-text">確認資料</div></div>
+                <div class="step-node"><div class="step-number">4</div><div class="step-text">完成訂單</div></div>
+            </div>
+
+            <h2 class="section-title">確認禮物收件資料</h2>
+
+            <div class="success-card" style="max-width: 720px;">
+                <p class="success-p" style="margin-bottom: 24px;">
+                    請再檢查一次資料是否正確。若資料有誤，可以回到上一頁重新更正；確認無誤後再送出訂單。
+                </p>
+
+                <div class="order-info-box">
+                    <div class="order-info-row">
+                        <span style="color: var(--text-light);">收件人姓名</span>
+                        <span id="confirmName" style="font-weight: bold; color: var(--primary-color);"></span>
+                    </div>
+
+                    <div class="order-info-row">
+                        <span style="color: var(--text-light);">聯絡電話</span>
+                        <span id="confirmPhone" style="font-weight: bold; color: var(--primary-color);"></span>
+                    </div>
+
+                    <div class="order-info-row">
+                        <span style="color: var(--text-light);">溫暖收件地址</span>
+                        <span id="confirmAddress" style="font-weight: bold; color: var(--primary-color); text-align: right;"></span>
+                    </div>
+
+                    <div class="order-info-row">
+                        <span style="color: var(--text-light);">付款方式</span>
+                        <span id="confirmPayment" style="font-weight: bold; color: var(--primary-color);"></span>
+                    </div>
+
+                    <div class="order-info-row">
+                        <span style="color: var(--text-light);">交付品項</span>
+                        <span id="confirmItems" style="font-weight: bold; color: var(--primary-color); text-align: right;"></span>
+                    </div>
+
+                    <div class="order-info-row" style="border-top: 1px solid var(--border-color); padding-top: 10px; margin-top: 10px;">
+                        <span style="color: var(--text-light);">總計</span>
+                        <span id="confirmTotal" style="font-weight: bold; color: var(--accent-color);"></span>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                    <button class="btn-primary" style="width: 100%; background-color: #ffffff; color: var(--primary-color); border: 1px solid var(--border-color); box-shadow: none;" onclick="navigateTo('checkout')">
+                        <i class="fa-solid fa-pen-to-square"></i> 重新更正
+                    </button>
+
+                    <button class="btn-primary" style="width: 100%;" onclick="completeOrder()">
+                        確認資料正確 <i class="fa-solid fa-check"></i>
+                    </button>
                 </div>
             </div>
         </section>
@@ -1939,6 +2000,12 @@
         };
 
         function navigateTo(pageId) {
+            if (pageId === 'checkout' && cart.length === 0) {
+                alert('你的培養瓶目前還沒有菇菇，請先選購產品再填寫收件資料。');
+                renderCart();
+                pageId = 'cart';
+            }
+
             document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
             document.getElementById(`${pageId}-page`).classList.add('active');
             window.scrollTo(0, 0);
@@ -2040,6 +2107,13 @@
 
                 document.getElementById('subtotalPrice').innerText = "NT$ 0";
                 document.getElementById('totalPrice').innerText = "NT$ 0";
+                const checkoutBtn = document.getElementById('checkoutBtn');
+                if (checkoutBtn) {
+                    checkoutBtn.disabled = true;
+                    checkoutBtn.style.opacity = "0.45";
+                    checkoutBtn.style.cursor = "not-allowed";
+                    checkoutBtn.innerHTML = '請先選購菇菇 <i class="fa-solid fa-seedling"></i>';
+                }
                 return;
             }
 
@@ -2076,6 +2150,14 @@
             document.getElementById('subtotalPrice').innerText = `NT$ ${subtotal}`;
             document.getElementById('totalPrice').innerText = `NT$ ${subtotal}`;
             document.getElementById('successItemText').innerText = `${cart[0].name} 等物件`;
+
+            const checkoutBtn = document.getElementById('checkoutBtn');
+            if (checkoutBtn) {
+                checkoutBtn.disabled = false;
+                checkoutBtn.style.opacity = "1";
+                checkoutBtn.style.cursor = "pointer";
+                checkoutBtn.innerHTML = '帶菇菇們回家 <i class="fa-solid fa-arrow-right"></i>';
+            }
         }
 
         function changeCartQty(index, change) {
@@ -2095,11 +2177,39 @@
             renderCart();
         }
 
+        function goToCheckout() {
+            if (cart.length === 0) {
+                alert('你的培養瓶目前還沒有菇菇，請先選購產品再填寫收件資料。');
+                renderCart();
+                return;
+            }
+
+            navigateTo('checkout');
+        }
+
+        function getCartItemsText() {
+            if (cart.length === 0) {
+                return '尚未選購商品';
+            }
+
+            return cart.map(item => `${item.name} x ${item.qty}`).join('、');
+        }
+
+        function getCartTotal() {
+            return cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+        }
+
         function submitCheckout() {
             const nameInput = document.getElementById('recipientName');
             const phoneInput = document.getElementById('recipientPhone');
             const addressInput = document.getElementById('recipientAddress');
             const selectedPayment = document.querySelector('input[name="payment"]:checked');
+
+            if (cart.length === 0) {
+                alert('你的培養瓶目前還沒有菇菇，請先選購產品再填寫收件資料。');
+                navigateTo('cart');
+                return;
+            }
 
             if (!nameInput.value.trim()) {
                 alert('請填寫收件人姓名');
@@ -2109,6 +2219,12 @@
 
             if (!phoneInput.value.trim()) {
                 alert('請填寫聯絡電話');
+                phoneInput.focus();
+                return;
+            }
+
+            if (!/^[0-9]+$/.test(phoneInput.value.trim())) {
+                alert('聯絡電話只能輸入數字');
                 phoneInput.focus();
                 return;
             }
@@ -2124,6 +2240,18 @@
                 return;
             }
 
+            document.getElementById('confirmName').innerText = nameInput.value.trim();
+            document.getElementById('confirmPhone').innerText = phoneInput.value.trim();
+            document.getElementById('confirmAddress').innerText = addressInput.value.trim();
+            document.getElementById('confirmPayment').innerText = selectedPayment.value;
+            document.getElementById('confirmItems').innerText = getCartItemsText();
+            document.getElementById('confirmTotal').innerText = `NT$ ${getCartTotal()}`;
+
+            navigateTo('confirm');
+        }
+
+        function completeOrder() {
+            document.getElementById('successItemText').innerText = getCartItemsText();
             navigateTo('success');
         }
 
