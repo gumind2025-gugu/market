@@ -1357,6 +1357,7 @@
                     <li><a onclick="scrollToSection('products-section')">探索菇菇</a></li>
                     <li><a onclick="scrollToSection('universe-section')">菇菇宇宙</a></li>
                     <li><a onclick="scrollToSection('team-section')">遇見菇勇者團隊</a></li>
+                    <li><a onclick="navigateTo('order-check')">確認訂單</a></li>
                     <li>
                         <a onclick="navigateTo('cart')" class="cart-icon">
                             <i class="fa-solid fa-cookie-bite"></i> 培養瓶
@@ -1862,7 +1863,7 @@
                 <div class="order-info-box">
                     <div class="order-info-row">
                         <span style="color: var(--text-light);">訂單編號</span>
-                        <span id="successOrderId" style="font-weight: bold; color: var(--primary-color);">#GM-等待建立</span>
+                        <span id="successOrderId" style="font-weight: bold; color: var(--primary-color);">訂單編號會寄到你的電子郵件</span>
                     </div>
 
                     <div class="order-info-row">
@@ -1877,6 +1878,36 @@
                 </div>
 
                 <button class="btn-primary" onclick="resetAndHome()">返回首頁繼續漫遊</button>
+            </div>
+        </section>
+    </div>
+
+    <div id="order-check-page" class="page">
+        <section>
+            <h2 class="section-title">確認訂單</h2>
+
+            <div class="success-card" style="max-width: 760px;">
+                <img src="火箭菇.jpg" alt="火箭菇確認訂單" style="width: 210px; max-width: 70%; height: auto; object-fit: contain; margin: 0 auto 24px auto; border-radius: 24px; background-color: #f9f6f1; border: 1px solid var(--border-color);">
+
+                <p class="success-p" style="margin-bottom: 24px;">
+                    請輸入你的訂單編號與下單時填寫的電子郵件，我們會幫你確認訂單狀態。
+                </p>
+
+                <div class="form-group" style="text-align: left;">
+                    <label>訂單編號</label>
+                    <input type="text" id="checkOrderId" class="form-control" placeholder="例如：GM20260530001" autocomplete="off">
+                </div>
+
+                <div class="form-group" style="text-align: left;">
+                    <label>電子郵件</label>
+                    <input type="email" id="checkOrderEmail" class="form-control" placeholder="請輸入下單時填寫的電子郵件" autocomplete="email">
+                </div>
+
+                <button id="checkOrderBtn" class="btn-primary" style="width: 100%; margin-top: 10px;" onclick="checkOrderStatus()">
+                    查詢訂單 <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+
+                <div id="orderCheckResult" class="order-info-box" style="display: none; margin-top: 28px;"></div>
             </div>
         </section>
     </div>
@@ -2283,10 +2314,8 @@
             }
 
             const finalSubmitBtn = document.getElementById('finalSubmitBtn');
-            const orderId = `GM-${Date.now()}`;
 
             const orderData = {
-                orderId: orderId,
                 name: document.getElementById('recipientName').value.trim(),
                 phone: document.getElementById('recipientPhone').value.trim(),
                 email: document.getElementById('recipientEmail').value.trim(),
@@ -2309,7 +2338,7 @@
                     body: JSON.stringify(orderData)
                 });
 
-                document.getElementById('successOrderId').innerText = `#${orderId}`;
+                document.getElementById('successOrderId').innerText = '訂單編號會寄到你的電子郵件';
                 document.getElementById('successItemText').innerText = getCartItemsText();
                 navigateTo('success');
             } catch (error) {
@@ -2319,6 +2348,138 @@
                 finalSubmitBtn.disabled = false;
                 finalSubmitBtn.innerHTML = '確認資料正確 <i class="fa-solid fa-check"></i>';
             }
+        }
+
+        function checkOrderStatus() {
+            const orderIdInput = document.getElementById('checkOrderId');
+            const emailInput = document.getElementById('checkOrderEmail');
+            const resultBox = document.getElementById('orderCheckResult');
+            const checkBtn = document.getElementById('checkOrderBtn');
+
+            const orderId = orderIdInput.value.trim();
+            const email = emailInput.value.trim();
+
+            if (!orderId) {
+                alert('請輸入訂單編號');
+                orderIdInput.focus();
+                return;
+            }
+
+            if (!email) {
+                alert('請輸入電子郵件');
+                emailInput.focus();
+                return;
+            }
+
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                alert('請輸入正確的電子郵件格式');
+                emailInput.focus();
+                return;
+            }
+
+            checkBtn.disabled = true;
+            checkBtn.innerHTML = '查詢中 <i class="fa-solid fa-spinner fa-spin"></i>';
+            resultBox.style.display = 'block';
+            resultBox.innerHTML = '正在查詢訂單，請稍候...';
+
+            const callbackName = 'gumindOrderLookup_' + Date.now();
+            const script = document.createElement('script');
+            const timeout = setTimeout(() => {
+                cleanup();
+                showOrderCheckError('查詢逾時，請稍後再試，或直接聯絡我們。');
+            }, 12000);
+
+            function cleanup() {
+                clearTimeout(timeout);
+                if (script.parentNode) {
+                    script.parentNode.removeChild(script);
+                }
+                delete window[callbackName];
+                checkBtn.disabled = false;
+                checkBtn.innerHTML = '查詢訂單 <i class="fa-solid fa-magnifying-glass"></i>';
+            }
+
+            window[callbackName] = function(result) {
+                cleanup();
+
+                if (!result || !result.success) {
+                    resultBox.innerHTML = `
+                        <p style="color: #c0392b; font-weight: bold; margin-bottom: 8px;">查無訂單</p>
+                        <p>${escapeHTML(result && result.message ? result.message : '請確認訂單編號與電子郵件是否正確。')}</p>
+                    `;
+                    return;
+                }
+
+                const order = result.order;
+
+                resultBox.innerHTML = `
+                    <div class="order-info-row">
+                        <span style="color: var(--text-light);">訂單編號</span>
+                        <span style="font-weight: bold; color: var(--primary-color);">${escapeHTML(order.orderId)}</span>
+                    </div>
+
+                    <div class="order-info-row">
+                        <span style="color: var(--text-light);">訂單狀態</span>
+                        <span style="font-weight: bold; color: var(--success-color);">${escapeHTML(order.status)}</span>
+                    </div>
+
+                    <div class="order-info-row">
+                        <span style="color: var(--text-light);">成立時間</span>
+                        <span style="font-weight: bold; color: var(--primary-color);">${escapeHTML(order.createdAt || '')}</span>
+                    </div>
+
+                    <div class="order-info-row">
+                        <span style="color: var(--text-light);">收件人姓名</span>
+                        <span style="font-weight: bold; color: var(--primary-color);">${escapeHTML(order.name)}</span>
+                    </div>
+
+                    <div class="order-info-row">
+                        <span style="color: var(--text-light);">電子郵件</span>
+                        <span style="font-weight: bold; color: var(--primary-color); text-align: right;">${escapeHTML(order.email || '')}</span>
+                    </div>
+
+                    <div class="order-info-row">
+                        <span style="color: var(--text-light);">訂購品項</span>
+                        <span style="font-weight: bold; color: var(--primary-color); text-align: right;">${escapeHTML(order.items)}</span>
+                    </div>
+
+                    <div class="order-info-row">
+                        <span style="color: var(--text-light);">付款方式</span>
+                        <span style="font-weight: bold; color: var(--primary-color);">${escapeHTML(order.payment)}</span>
+                    </div>
+
+                    <div class="order-info-row" style="border-top: 1px solid var(--border-color); padding-top: 10px; margin-top: 10px;">
+                        <span style="color: var(--text-light);">總金額</span>
+                        <span style="font-weight: bold; color: var(--accent-color);">NT$ ${escapeHTML(order.total)}</span>
+                    </div>
+                `;
+            };
+
+            script.onerror = function() {
+                cleanup();
+                showOrderCheckError('查詢失敗，請確認 Apps Script 已重新部署，或稍後再試。');
+            };
+
+            script.src = `${GOOGLE_SCRIPT_URL}?action=lookup&orderId=${encodeURIComponent(orderId)}&email=${encodeURIComponent(email)}&callback=${callbackName}`;
+            document.body.appendChild(script);
+        }
+
+        function showOrderCheckError(message) {
+            const resultBox = document.getElementById('orderCheckResult');
+            resultBox.style.display = 'block';
+            resultBox.innerHTML = `
+                <p style="color: #c0392b; font-weight: bold; margin-bottom: 8px;">查詢失敗</p>
+                <p>${escapeHTML(message)}</p>
+            `;
+        }
+
+        function escapeHTML(value) {
+            return String(value || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
         }
 
         function resetAndHome() {
